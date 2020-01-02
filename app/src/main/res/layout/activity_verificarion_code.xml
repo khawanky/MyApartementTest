@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gray_background"
+    tools:context=".create_account.vcode.VerificationCodeActivity">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/tvMyApartment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/gibson_semi_bold"
+                android:text="@string/appTitle"
+                android:textColor="@color/black"
+                android:textSize="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvCreateAccount"
+                style="@style/labels"
+                android:layout_marginTop="6dp"
+                android:text="@string/createAccount"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvMyApartment" />
+
+            <TextView
+                android:id="@+id/tvVCodeNote"
+                style="@style/descriptions"
+                android:layout_height="102dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="65dp"
+                android:layout_marginRight="25dp"
+                android:text="@string/validationCodeCheckMsg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCreateAccount" />
+
+            <TextView
+                android:id="@+id/tvEmail"
+                style="@style/labels"
+                android:layout_marginTop="51dp"
+                android:text="@string/validationCodeEnter"
+                android:textSize="14dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout"
+                app:layout_constraintTop_toBottomOf="@+id/tvVCodeNote" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvEmail">
+
+                <EditText
+                    android:id="@+id/etVCodeDigit1"
+                    style="@style/vCodeDigit"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:id="@+id/etVCodeDigit2"
+                    style="@style/vCodeDigit"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:id="@+id/etVCodeDigit3"
+                    style="@style/vCodeDigit"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:id="@+id/etVCodeDigit4"
+                    style="@style/vCodeDigit"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:id="@+id/etVCodeDigit5"
+                    style="@style/vCodeDigit"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:id="@+id/etVCodeDigit6"
+                    style="@style/vCodeDigit"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buResendCode"
+
+                style="@style/buttons"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_small_gray"
+                android:onClick="continueClickEvent"
+                android:text="@string/validationCodeResend"
+                android:textColor="@color/black2"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+            <Button
+                android:id="@+id/buContinue"
+                style="@style/buttons"
+                android:layout_marginTop="71dp"
+                android:onClick="continueClickEvent"
+                android:text="@string/continueTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buResendCode" />
+
+
+            <LinearLayout
+                android:layout_width="258dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="36dp"
+                android:layout_marginBottom="15dp"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buContinue"
+                app:layout_constraintVertical_bias="0.0">
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/haveAccount"
+                    android:textColor="@color/black2" />
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:onClick="goToLogin"
+                    android:text="@string/loginTxt3"
+                    android:textColor="@color/txtDarkBlue" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</RelativeLayout>

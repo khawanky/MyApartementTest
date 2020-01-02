@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">My Apartment</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+
+    <!--    Login and registration-->
+    <string name="appTitle">My Apartment</string>
+    <string name="createAccountTxt">Create Account</string>
+    <string name="loginTxt1">Log in</string>
+    <string name="loginTxt2">Login</string>
+    <string name="loginTxt3">Log In</string>
+    <string name="trouble">Having Trouble?</string>
+    <string name="userName">USERNAME</string>
+    <string name="password">PASSWORD</string>
+    <string name="forgotPassword">Forgot Password?</string>
+    <string name="createAccount">CREATE ACCOUNT</string>
+    <string name="firstName">FIRST NAME</string>
+    <string name="lastName">LAST NAME</string>
+    <string name="building">BUILDING</string>
+    <string name="unit">UNIT</string>
+    <string name="room">ROOM</string>
+    <string name="continueTxt">Continue</string>
+    <string name="haveAccount">Have an account?</string>
+    <string name="emailProvideMsg">Please provide the email address that will be tied to your account.</string>
+    <string name="email">EMAIL ADDRESS</string>
+    <string name="emailNotFoundError">We didn\'t find the email address in our system. Please enter the email address that was used for your welcome email.</string>
+    <string name="validationCodeCheckMsg">Please check your email for a six digit validation code. Paste that code below to continue your account registration.</string>
+    <string name="validationCodeEnter">ENTER VALIDATION CODE</string>
+    <string name="validationCodeResend">Resend code</string>
+    <string name="passwordHint">(must be at least 6 characters)</string>
+    <string name="passwordRetype">RE-TYPE PASSWORD</string>
+    <string name="finishTxt">Finish</string>
+
+</resources>
