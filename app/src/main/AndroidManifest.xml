@@ -11,7 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".profile.ProfileActivity"></activity>
+        <activity android:name=".menu.help.HelpInfoActivity"></activity>
+        <activity android:name=".menu.myprofile.MyprofileActivity" />
+        <activity android:name=".menu.myapartment.MyapartmentActivity" />
+        <activity android:name=".menu.help.HelpActivity" />
+        <activity android:name=".menu.about.AboutActivity" />
+        <activity android:name=".menu.menu_list.MenuActivity" />
         <activity android:name=".create_account.password.EnterPasswordActivity" />
         <activity android:name=".create_account.email.EmailCheckerActivity" />
         <activity android:name=".create_account.vcode.VerificationCodeActivity" />

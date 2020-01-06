@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".menu.help.HelpInfoActivity">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar_with_backarrow"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/commonIssues"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="COMMON ISSUES"
+        android:layout_weight="3"
+        android:padding="15dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="105dp" />
+
+    <TextView
+        android:id="@+id/helpContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        android:paddingTop="25dp"
+        android:paddingHorizontal="36dp"
+        android:text="Help content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="202dp" />
+
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/stillHaveTroubleBar"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:elevation="8dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        <TextView
+            android:id="@+id/stillHaveTroubleTitle"
+            style="@style/questions_text"
+            android:textSize="15dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/gibson_semi_bold"
+            android:text="@string/stillHaveTroubleTitleTxt" />
+    </androidx.appcompat.widget.Toolbar>
+</LinearLayout>

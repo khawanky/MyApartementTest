@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".menu.about.AboutActivity">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar_with_backarrow"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/building_image" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:textColor="@color/black4"
+                    android:fontFamily="@font/gibson_semi_bold"
+                    android:layout_gravity="center"
+                    android:text="@string/myApartmentAbout" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:textColor="@color/black4"
+                    android:fontFamily="@font/gibson_light_regular"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/MyApartmentVersion" />
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11dp"
+                android:textColor="@color/black4"
+                android:fontFamily="@font/gibson_regular"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="@string/PoweredBy" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/single_digits_sign" />
+
+            <TextView
+                android:id="@+id/buResetApp"
+                style="@style/about_buttons"
+                android:layout_marginTop="35dp"
+                android:text="@string/myApartmentAbout" />
+
+            <TextView
+                android:id="@+id/buFeedback"
+                style="@style/about_buttons"
+                android:text="@string/resetApp" />
+
+            <TextView
+                android:id="@+id/buAcceptPolicy"
+                style="@style/about_buttons"
+                android:text="@string/privacyPolicy" />
+
+            <TextView
+                android:id="@+id/buUsePolicy"
+                style="@style/about_buttons"
+                android:text="@string/usePolicy" />
+
+
+            <TextView
+                android:id="@+id/tvNeedHelp"
+                style="@style/questions_text"
+                android:layout_gravity="center"
+                android:layout_marginTop="80dp"
+                android:text="@string/needHelp" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

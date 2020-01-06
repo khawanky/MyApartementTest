@@ -38,4 +38,41 @@
     <string name="passwordRetype">RE-TYPE PASSWORD</string>
     <string name="finishTxt">Finish</string>
 
+    <!-- user profile-->
+    <string name="myProfileTxt">My Profile</string>
+    <string name="myApartmentTxt">My Apartment</string>
+    <string name="aboutTxt">About</string>
+    <string name="helpTxt">Help</string>
+    <string name="logoutTxt">Logout</string>
+
+    <!-- Help -->
+    <string name="connWifiTxt">Connection to wifi</string>
+    <string name="addGuestTxt">Adding guests</string>
+    <string name="addingDeviceTxt">Adding devices</string>
+    <string name="doorsLocksTxt">Doors and locks</string>
+    <string name="lightsFansTxt">Lights and fans</string>
+    <string name="thermostatTxt">Thermostat</string>
+    <string name="tvGuideTxt">TV guide</string>
+    <string name="accountTxt">Account</string>
+
+    <string name="saveButtonTxt">Save</string>
+    <string name="phone">PHONE</string>
+    <string name="changePassTxt">Change password</string>
+
+    <string name="stillHaveTroubleTitleTxt">Still have trouble?</string>
+
+
+<!--    About-->
+    <string name="myApartmentAbout">My Apartment</string>
+    <string name="MyApartmentVersion">2.0.1</string>
+    <string name="PoweredBy">POWERED BY</string>
+    <string name="resetApp">Reset App</string>
+    <string name="giveFeedback">Give feedback</string>
+    <string name="privacyPolicy">Privacy policy</string>
+    <string name="usePolicy">Acceptable use policy</string>
+
+
+    <string name="needHelp">Need help?</string>
+
+
 </resources>

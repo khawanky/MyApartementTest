@@ -18,11 +18,15 @@
     <color name="black2">#1D1D1D</color>
     <color name="black3">#3E3E3E</color>
     <color name="black4">#262626</color>
+    <color name="black5">#505050</color>
 
     <color name="gray">#ABB1B2</color>
+    <color name="bu_profile_gray">#EFF1F5</color>
     <color name="shadow">#0000001A</color>
     <color name="transparent">#00000000</color>
     <color name="grayStatusBarBack">#CAD2D4</color>
+
+    <color name="blue_questions_color">#0075EA</color>
 
 
 </resources>
