@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".menu.myapartment.MyapartmentActivity">
+    android:background="@drawable/circles_top_background"
+    android:orientation="vertical"
+    tools:context=".ui.menu.myapartment.MyapartmentActivity">
 
     <include
         android:id="@+id/include"
@@ -12,4 +14,198 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/linearLayoutInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/rect_blue_slidder"
+                android:minHeight="150dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/yourInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="38dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginBottom="12dp"
+                    android:fontFamily="@font/gibson_regular"
+                    android:text="@string/yourInfo"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvHotelName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="38dp"
+                    android:layout_marginBottom="3dp"
+                    android:fontFamily="@font/gibson_semi_bold"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tvUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="38dp"
+                    android:layout_marginBottom="2dp"
+                    android:fontFamily="@font/gibson_regular"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tvRoom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="38dp"
+                    android:fontFamily="@font/gibson_regular"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvHotelFullName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="26dp"
+                android:fontFamily="@font/gibson_semi_bold"
+                android:textColor="@color/black4"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutInfo" />
+
+            <TextView
+                android:id="@+id/tvAddressPart1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/gibson_regular"
+                android:textColor="@color/black5"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvHotelFullName" />
+
+
+            <TextView
+                android:id="@+id/tvAddressPart2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/gibson_regular"
+                android:textColor="@color/black5"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvAddressPart1" />
+
+            <TextView
+                android:id="@+id/tvWebsite"
+                android:layout_width="121dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_link_gray"
+                android:gravity="center"
+                android:text="@string/webSite"
+                android:textAllCaps="false"
+                android:textColor="@color/black2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvAddressPart2" />
+
+            <TextView
+                android:id="@+id/tvPropertyManagerLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/gibson_regular"
+                android:text="@string/propertyManager"
+                android:textColor="@color/black3"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvWebsite" />
+
+            <TextView
+                android:id="@+id/tvPropertyManager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/gibson_semi_bold"
+                android:textColor="@color/black4"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvPropertyManagerLabel" />
+
+
+            <ImageView
+                android:id="@+id/ivEmailIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="14dp"
+                android:src="@drawable/ic_email_prp_mngr"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvPropertyManager" />
+
+            <ImageView
+                android:id="@+id/ivPhoneIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/ic_phone_prp_mngr"
+                app:layout_constraintStart_toEndOf="@+id/ivEmailIcon"
+                app:layout_constraintTop_toTopOf="@+id/ivEmailIcon" />
+
+
+            <TextView
+                android:id="@+id/tvOfficeHours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="26dp"
+                android:fontFamily="@font/gibson_semi_bold"
+                android:text="@string/officeHours"
+                android:textColor="@color/black4"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivEmailIcon" />
+
+            <LinearLayout
+                android:id="@+id/officeHoursLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="4dp"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvOfficeHours">
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvNeedHelp"
+                style="@style/questions_text"
+                android:layout_gravity="center"
+                android:text="@string/needHelp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>

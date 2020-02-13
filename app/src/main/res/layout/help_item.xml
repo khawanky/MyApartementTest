@@ -12,7 +12,7 @@
         android:orientation="horizontal"
         android:layout_marginRight="22dp"
         android:layout_marginLeft="22dp"
-        android:background="@drawable/help_items_rect_button">
+        android:background="@drawable/rect_help_item_list">
 
         <ImageView
             android:id="@+id/ivhelpIconImage"

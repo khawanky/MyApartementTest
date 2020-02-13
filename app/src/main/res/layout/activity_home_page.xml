@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/blur_background"
-    tools:context=".home.HomePageActivity"
+    tools:context=".ui.home.HomePageActivity"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -23,10 +23,8 @@
             android:id="@+id/hamburger"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/hamburger_icon"
-            android:layout_gravity="left"
-            android:layout_marginLeft="21dp"
-
+            android:src="@drawable/ic_hamburger_menu"
+            android:layout_gravity="start"
             />
 
         <TextView
@@ -38,8 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/notification"
-            android:layout_marginRight="25dp"
-            android:layout_gravity="right"
+            android:layout_marginEnd="20dp"
+            android:layout_gravity="end"
          />
     </androidx.appcompat.widget.Toolbar>
 
@@ -47,19 +45,227 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <com.us.singledigits.myapartment.commons.ui.ExpandableHeightGridView
-            android:id="@+id/apartment_sections"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:padding="24dp"
-            android:horizontalSpacing="26dp"
-            android:verticalSpacing="26dp"
-            android:numColumns="auto_fit"
-            android:gravity="center"
-            android:stretchMode="columnWidth"
-            android:layout_centerHorizontal="true" />
+            android:layout_height="wrap_content">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/doorsTileLayout"
+                style="@style/homepage_tile"
+                android:layout_marginTop="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1.06"
+                app:layout_constraintEnd_toStartOf="@+id/lightsTileLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
+
+                <TextView
+                    android:id="@+id/tvDoorsTitle"
+                    style="@style/tile_title_text"
+                    android:text="@string/doors"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.145" />
+
+                <TextView
+                    android:id="@+id/tvDoorsStatus"
+                    style="@style/tile_status_text"
+                    android:text="@string/dashes"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="@+id/tvDoorsTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDoorsTitle" />
+
+                <ImageView
+                    android:id="@+id/ivDoorsStatusIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.8"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.8"
+                    app:srcCompat="@drawable/locked" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/lightsTileLayout"
+                style="@style/homepage_tile"
+                android:layout_marginTop="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1.06"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/doorsTileLayout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
+
+                <TextView
+                    android:id="@+id/tvLightsTitle"
+                    style="@style/tile_title_text"
+                    android:text="@string/lights"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.145" />
+
+                <TextView
+                    android:id="@+id/tvLightsStatus"
+                    style="@style/tile_status_text"
+                    android:text="@string/dashes"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="@+id/tvLightsTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLightsTitle" />
+
+                <ImageView
+                    android:id="@+id/ivLightsStatusIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.8"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.8"
+                    app:srcCompat="@drawable/closed_lamp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/thermostatTileLayout"
+                style="@style/homepage_tile"
+                android:layout_marginTop="25dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1.06"
+                app:layout_constraintEnd_toStartOf="@+id/devicesTileLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/doorsTileLayout"
+                app:layout_constraintVertical_bias="0.0">
+
+                <TextView
+                    android:id="@+id/tvThermostatTitle"
+                    style="@style/tile_title_text"
+                    android:text="@string/thermostat"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.355"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.145" />
+
+                <TextView
+                    android:id="@+id/tvThermostatStatus"
+                    style="@style/tile_status_text"
+                    android:text="@string/dashes"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="@+id/tvThermostatTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/tvThermostatTitle" />
+
+                <TextView
+                    android:id="@+id/ivThermostatStatusIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="72"
+                    android:textSize="30sp"
+                    android:textColor="#FA6133"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintHorizontal_bias="0.8"
+                    app:layout_constraintVertical_bias="0.8" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/devicesTileLayout"
+                style="@style/homepage_tile"
+                android:layout_marginTop="25dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1.06"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/doorsTileLayout"
+                app:layout_constraintTop_toBottomOf="@id/lightsTileLayout"
+                app:layout_constraintVertical_bias="0.0">
+
+                <TextView
+                    android:id="@+id/tvDevicesTitle"
+                    style="@style/tile_title_text"
+                    android:text="@string/devices"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.25"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.145" />
+
+                <TextView
+                    android:id="@+id/tvDevicesStatus"
+                    style="@style/tile_status_text"
+                    android:text="@string/devicesTotal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="@+id/tvDevicesTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDevicesTitle" />
+
+                <ImageView
+                    android:id="@+id/ivDevicesStatusIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.8"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.8"
+                    app:srcCompat="@drawable/devices" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/tvGuideTileLayout"
+                style="@style/homepage_tile"
+                android:layout_marginTop="25dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1.06"
+                app:layout_constraintEnd_toEndOf="@+id/thermostatTileLayout"
+                app:layout_constraintStart_toStartOf="@+id/thermostatTileLayout"
+                app:layout_constraintTop_toBottomOf="@id/thermostatTileLayout">
+
+                <TextView
+                    android:id="@+id/tvTvGuideTitle"
+                    style="@style/tile_title_text"
+                    android:text="@string/tvGuide"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.25"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.145" />
+
+                <ImageView
+                    android:id="@+id/ivTvGuideStatusIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.8"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.8"
+                    app:srcCompat="@drawable/tv_guide" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </ScrollView>
 

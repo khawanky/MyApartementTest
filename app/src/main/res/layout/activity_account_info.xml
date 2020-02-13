@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gray_background"
-    tools:context=".create_account.information.AccountInfoActivity">
+    tools:context=".ui.create_account.information.AccountInfoActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
         android:layout_marginTop="30dp"
         android:text="@string/appTitle"
         android:textColor="@color/black"
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:fontFamily="@font/gibson_semi_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
         android:layout_marginTop="6dp"
         android:text="@string/createAccount"
         style="@style/labels"
-        android:textSize="15dp"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvMyApartment" />
@@ -56,24 +56,22 @@
 
     <EditText
         android:id="@+id/etFirstName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="18dp"
+        style="@style/textFields"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="9dp"
         app:layout_constraintHorizontal_weight="1"
+        android:inputType="text"
         app:layout_constraintEnd_toStartOf="@id/etLastName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvFirstName" />
 
     <EditText
         android:id="@+id/etLastName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="18dp"
+        style="@style/textFields"
         android:layout_marginStart="9dp"
         android:layout_marginEnd="23dp"
         app:layout_constraintHorizontal_weight="1"
+        android:inputType="text"
         app:layout_constraintStart_toEndOf="@id/etFirstName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvLastName" />
@@ -88,11 +86,10 @@
 
     <EditText
         android:id="@+id/etEmail"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="23.5dp"
-        android:layout_marginLeft="20dp"
-        android:textSize="18dp"
+        style="@style/textFields"
+        android:layout_marginEnd="23.5dp"
+        android:layout_marginStart="20dp"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvBuilding" />
@@ -114,11 +111,10 @@
 
     <EditText
         android:id="@+id/etUnit"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        style="@style/textFields"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="9dp"
-        android:textSize="18dp"
+        android:inputType="text"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintEnd_toStartOf="@+id/etRoom"
         app:layout_constraintStart_toStartOf="parent"
@@ -126,11 +122,10 @@
 
     <EditText
         android:id="@+id/etRoom"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        style="@style/textFields"
         android:layout_marginStart="9dp"
         android:layout_marginEnd="23dp"
-        android:textSize="18dp"
+        android:inputType="text"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/etUnit"
@@ -139,7 +134,7 @@
     <Button
         android:id="@+id/buContinue"
         style="@style/buttons"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="70dp"
         android:onClick="continueClickEvent"
         android:text="@string/continueTxt"
         app:layout_constraintEnd_toEndOf="parent"
@@ -149,7 +144,7 @@
         <LinearLayout
             android:layout_width="258dp"
             android:layout_height="22dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="34dp"
             android:layout_marginBottom="15dp"
             android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -169,7 +164,7 @@
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
                 android:onClick="goToLogin"
                 android:text="@string/loginTxt3"
                 android:textColor="@color/txtDarkBlue" />

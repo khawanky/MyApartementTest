@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grayDevicesBack"
+    tools:context=".ui.devices.DevicesActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/circles_top_background"
+        android:contentDescription="@string/imageContentDesc" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar_with_backarrow"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gibson_regular"
+        android:text="@string/people"
+        android:textColor="@color/black4"
+        android:layout_marginTop="15dp"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/listViewPeople"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
+
+    <ListView
+        android:id="@+id/listViewPeople"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutTabs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_chainStyle="spread"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        app:layout_constraintVertical_weight="1.2" />
+
+
+        <LinearLayout
+            android:id="@+id/linearLayoutTabs"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_weight="2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/listViewPeople" >
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/devicesTabs"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="125dp"
+                app:tabGravity="start"
+                android:textAlignment="textStart"
+                style="@style/MyCustomTextAppearance"
+                app:tabIndicatorColor="@color/black2" >
+            </com.google.android.material.tabs.TabLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager2Devices"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="1dp" />
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

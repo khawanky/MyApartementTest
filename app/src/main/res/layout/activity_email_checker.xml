@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gray_background"
-    tools:context=".create_account.email.EmailCheckerActivity">
+    tools:context=".ui.create_account.email.EmailCheckerActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tvMyApartment"
@@ -23,7 +23,7 @@
                 android:fontFamily="@font/gibson_semi_bold"
                 android:text="@string/appTitle"
                 android:textColor="@color/black"
-                android:textSize="25dp"
+                android:textSize="25sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +33,7 @@
                 style="@style/labels"
                 android:layout_marginTop="6dp"
                 android:text="@string/createAccount"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvMyApartment" />
@@ -42,9 +42,9 @@
                 android:id="@+id/tvEmailNote"
                 style="@style/descriptions"
                 android:layout_height="102dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="65dp"
-                android:layout_marginRight="25dp"
+                android:layout_marginEnd="25dp"
                 android:text="@string/emailProvideMsg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,11 +62,10 @@
 
             <EditText
                 android:id="@+id/etEmail"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="23dp"
-                android:textSize="18dp"
+                style="@style/textFields"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="23dp"
+                android:inputType="textEmailAddress"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.697"
                 app:layout_constraintStart_toStartOf="parent"
@@ -105,7 +104,7 @@
                     android:id="@+id/textView9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
+                    android:layout_marginStart="2dp"
                     android:onClick="goToLogin"
                     android:text="@string/loginTxt3"
                     android:textColor="@color/txtDarkBlue" />

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gray_background"
-    tools:context=".login.ui.login.LoginActivity">
+    tools:context=".ui.login.ui.login.LoginActivity">
 
 
     <ScrollView
@@ -14,8 +14,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tvMyApartment"
@@ -23,9 +22,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="93dp"
                 android:fontFamily="@font/gibson_semi_bold"
-                android:text="My Apartment"
+                android:text="@string/myApartmentTxt"
                 android:textColor="@color/black"
-                android:textSize="29dp"
+                android:textSize="29sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -36,9 +35,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="83dp"
                 android:fontFamily="@font/gibson_regular"
-                android:text="USERNAME"
+                android:text="@string/userName"
                 android:textColor="@color/black3"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/etUsername"
@@ -47,13 +46,14 @@
             <EditText
                 android:id="@+id/etUsername"
                 android:layout_width="0dp"
+                android:cursorVisible="false"
                 android:layout_height="54.5dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="34dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="34dp"
                 android:inputType="textEmailAddress"
                 android:selectAllOnFocus="true"
                 android:textColor="@color/black"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvUserName" />
@@ -64,9 +64,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="58dp"
                 android:fontFamily="@font/gibson_regular"
-                android:text="PASSWORD"
+                android:text="@string/password"
                 android:textColor="@color/black3"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@id/etPassword"
@@ -76,8 +76,9 @@
                 android:id="@+id/etPassword"
                 android:layout_width="0dp"
                 android:layout_height="54.5dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="34dp"
+                android:cursorVisible="false"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="34dp"
                 android:imeActionLabel="@string/action_sign_in_short"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
@@ -95,12 +96,12 @@
                 android:layout_below="@+id/etPassword"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="48dp"
-                android:background="@drawable/blue_button"
+                android:background="@drawable/button_blue"
                 android:fontFamily="@font/gibson_regular"
-                android:text="Login"
+                android:text="@string/loginTxt3"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/etPassword" />
@@ -110,11 +111,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="44dp"
+                android:layout_marginBottom="100dp"
                 android:fontFamily="@font/gibson_regular"
                 android:text="@string/forgotPassword"
                 android:textAllCaps="false"
                 android:textColor="@color/black3"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/buLogin" />

@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/circles_top_background"
     android:orientation="vertical"
-    tools:context=".menu.help.HelpInfoActivity">
+    tools:context=".ui.menu.help.HelpInfoActivity">
 
     <include
         android:id="@+id/include"
@@ -13,31 +14,51 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/commonIssues"
+    <LinearLayout
+        android:id="@+id/linLayCommonIssues"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:text="COMMON ISSUES"
-        android:layout_weight="3"
-        android:padding="15dp"
-        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingStart="30dp"
+        android:paddingEnd="35dp"
+        android:paddingBottom="15dp"
+        android:minHeight="80dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="105dp" />
+        android:background="@drawable/rect_blue_slidder">
 
-    <TextView
-        android:id="@+id/helpContent"
+        <TextView
+            android:id="@+id/commonIssues"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/gibson_regular"
+            android:layout_marginBottom="12dp"
+            android:textAlignment="center"
+            android:text="COMMON ISSUES" />
+    </LinearLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="7"
-        android:paddingTop="25dp"
-        android:paddingHorizontal="36dp"
-        android:text="Help content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="202dp" />
-
-
+        app:layout_constraintStart_toStartOf="parent">
+    <TextView
+        android:id="@+id/helpContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="25dp"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:textColor="@color/black4"
+        android:lineSpacingExtra="10dp"
+        android:textSize="16sp"
+        android:fontFamily="@font/gibson_regular"
+        android:text="Getting data ... " />
+    </ScrollView>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/stillHaveTroubleBar"
