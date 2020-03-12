@@ -81,11 +81,11 @@
         style="@style/labels"
         android:layout_marginTop="60dp"
         android:text="@string/building"
-        app:layout_constraintStart_toStartOf="@+id/etEmail"
+        app:layout_constraintStart_toStartOf="@+id/etMacAddress"
         app:layout_constraintTop_toBottomOf="@+id/etFirstName" />
 
     <EditText
-        android:id="@+id/etEmail"
+        android:id="@+id/etMacAddress"
         style="@style/textFields"
         android:layout_marginEnd="23.5dp"
         android:layout_marginStart="20dp"
@@ -100,7 +100,7 @@
         android:layout_marginTop="58dp"
         android:text="@string/unit"
         app:layout_constraintStart_toStartOf="@+id/etUnit"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/etMacAddress" />
 
     <TextView
         android:id="@+id/tvRoom"

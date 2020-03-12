@@ -82,7 +82,7 @@ class HelpActivity : BaseActivity(), OnHelpItemClickListener {
                 val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
                 val myView = inflater.inflate(R.layout.help_item, null)
 
-                ViewHolder(helpItem, myView, myView.tvName, myView.ivhelpIconImage).also {
+                ViewHolder(helpItem, myView, myView.tvTitle, myView.ivhelpIconImage).also {
                     convertView?.tag = it
                 }
             } else {

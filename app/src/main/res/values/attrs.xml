@@ -5,4 +5,54 @@
         <attr name="vs_progress" format="integer" />
         <attr name="vs_cornerRadius" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="CircularSeekBar">
+        <attr name="arcColor" format="color" />
+        <attr name="arcWidth" format="dimension" />
+
+        <attr name="progressMin" format="float" />
+        <attr name="progressMax" format="float" />
+
+        <attr name="primaryProgress" format="float" />
+        <attr name="primaryProgressColor" format="color" />
+        <attr name="primaryProgressWidth" format="dimension" />
+        <attr name="primaryProgressThumbStyle">
+            <enum name="drawable" value="0" />
+            <enum name="line" value="1" />
+        </attr>
+        <attr name="primaryProgressThumbDrawable" format="reference" />
+        <attr name="primaryProgressThumbLineLength" format="dimension" />
+        <attr name="primaryProgressThumbLineColor" format="dimension" />
+        <attr name="primaryProgressThumbLineWidth" format="dimension" />
+
+        <attr name="secondaryProgress" format="float" />
+        <attr name="secondaryProgressColor" format="color" />
+        <attr name="secondaryProgressWidth" format="dimension" />
+        <attr name="secondaryProgressThumbStyle">
+            <enum name="drawable" value="0" />
+            <enum name="line" value="1" />
+        </attr>
+        <attr name="secondaryProgressThumbDrawable" format="reference" />
+        <attr name="secondaryProgressThumbLineLength" format="dimension" />
+        <attr name="secondaryProgressThumbLineColor" format="dimension" />
+        <attr name="secondaryProgressThumbLineWidth" format="dimension" />
+
+        <attr name="showThumbs" format="boolean" />
+
+        <attr name="showLabel" format="boolean" />
+        <attr name="labelColor" format="color" />
+        <attr name="labelTextSize" format="dimension" />
+
+        <attr name="offsetAngle" format="float" />
+        <attr name="rotationAngle" format="float" />
+        <attr name="startAngle" format="float" />
+        <attr name="sweepAngle" format="float" />
+
+        <attr name="roundEdges" format="boolean" />
+        <attr name="clockwise" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="CircularSeekBarStyle">
+        <attr name="circularSeekBarStyle" format="reference" />
+    </declare-styleable>
 </resources>

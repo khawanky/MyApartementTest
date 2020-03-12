@@ -6,4 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.devices.DeviceInfoActivity">
 
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar_with_backarrow"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

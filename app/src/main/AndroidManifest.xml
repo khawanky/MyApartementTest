@@ -10,8 +10,20 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ui.devices.DeviceInfoActivity"></activity>
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ui.notifications.NotificationDetailsActivity"></activity>
+        <activity android:name=".ui.notifications.NotificationsActivity" />
+        <activity
+            android:name=".ui.devices.PublicWifiActivity"
+            android:theme="@style/Theme.Transparent"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.devices.PrivateWifiActivity"
+            android:theme="@style/Theme.Transparent"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".ui.devices.AddDeviceActivity" />
+        <activity android:name=".ui.devices.DeviceInfoActivity" />
 
         <service
             android:name=".data.services.DevicesSocketService"

@@ -15,10 +15,10 @@ interface MenuApi {
     @GET("mdu/residents/{id}")
     fun getResident(@Path(value = "id") id:String) : Call<ResidentResponse>
 
-    @GET("mdu/dwelling-units/{id}")
+    @GET("mdu/dwellingUnits/{id}")
     fun getUnit(@Path(value = "id") id:String) : Call<DwellingUnitResponse>
 
-    @GET("mdu/dwelling-unit-rooms/{id}")
+    @GET("mdu/dwellingUnitRooms/{id}")
     fun getRoom(@Path(value = "id") id:String) : Call<DwellingUnitRoomResponse>
 
     @GET("mdu/sites/{id}")

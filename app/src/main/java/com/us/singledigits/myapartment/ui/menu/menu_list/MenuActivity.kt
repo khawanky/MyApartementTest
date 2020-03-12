@@ -50,7 +50,7 @@ class MenuActivity : AppCompatActivity() {
             myApartment.managerEmail = it.emailAddress
         })
 
-        model.getUnit()?.observe(this, Observer<DwellingUnit> {
+        model.getUnit()?.observe(this, Observer<DwellingUnitAttributes> {
             myApartment.unitString = "Unit " + it.unitLabel
             tvUnit.text = myApartment.unitString + ","
         })

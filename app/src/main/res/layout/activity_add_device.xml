@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.devices.AddDeviceActivity">
+
+    <ImageView
+        android:id="@+id/ivClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/ic_close"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/addDeviceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gibson_semi_bold"
+        android:text="@string/addDeviceTitle"
+        android:textColor="@color/black4"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivClose"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivClose" />
+
+    <TextView
+        android:id="@+id/tvMacAddress"
+        style="@style/labels"
+        android:layout_marginTop="40dp"
+        android:text="@string/macLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintStart_toStartOf="@+id/etMacAddress"
+        app:layout_constraintTop_toBottomOf="@+id/addDeviceTitle" />
+
+    <TextView
+        android:id="@+id/tvHowToGetMacAddress"
+        style="@style/questions_text"
+        android:layout_gravity="center"
+        android:text="@string/whereToFindLink"
+        app:layout_constraintBottom_toBottomOf="@+id/tvMacAddress"
+        app:layout_constraintEnd_toEndOf="@+id/etMacAddress"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tvMacAddress"
+        app:layout_constraintTop_toTopOf="@+id/tvMacAddress"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/etMacAddress"
+        style="@style/textFields"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMacAddress" />
+
+    <TextView
+        android:id="@+id/tvDeviceName"
+        style="@style/labels"
+        android:layout_marginTop="36dp"
+        android:text="@string/deviceNameLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintStart_toStartOf="@+id/etDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/etMacAddress" />
+
+    <EditText
+        android:id="@+id/etDeviceName"
+        style="@style/textFields"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDeviceName" />
+
+    <Button
+        android:id="@+id/buSave"
+        style="@style/buttons"
+        android:layout_marginBottom="20dp"
+        android:text="@string/saveButtonTxt"
+        app:layout_constraintBottom_toTopOf="@+id/tvNeedHelp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etDeviceName"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/tvNeedHelp"
+        style="@style/questions_text"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:text="@string/needHelp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

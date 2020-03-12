@@ -37,13 +37,15 @@
                 style="@style/labels"
                 android:layout_marginTop="45dp"
                 android:text="@string/email"
-                app:layout_constraintStart_toStartOf="@+id/etEmail"
+                app:layout_constraintStart_toStartOf="@+id/etMacAddress"
                 app:layout_constraintTop_toBottomOf="@+id/profile_image" />
 
             <EditText
-                android:id="@+id/etEmail"
+                android:id="@+id/etMacAddress"
                 style="@style/textFields"
                 android:layout_marginStart="25dp"
+                android:enabled="false"
+                android:inputType=""
                 app:layout_constraintEnd_toEndOf="@+id/etFirstName"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
@@ -54,7 +56,7 @@
                 android:layout_marginTop="33dp"
                 android:text="@string/firstName"
                 app:layout_constraintStart_toStartOf="@+id/etFirstName"
-                app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+                app:layout_constraintTop_toBottomOf="@+id/etMacAddress" />
 
             <TextView
                 android:id="@+id/tvLastName"
@@ -68,6 +70,7 @@
                 style="@style/textFields"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="13dp"
+                android:enabled="false"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintEnd_toStartOf="@id/etLastName"
                 app:layout_constraintStart_toStartOf="parent"
@@ -77,6 +80,7 @@
                 android:id="@+id/etLastName"
                 style="@style/textFields"
                 android:layout_marginEnd="23dp"
+                android:enabled="false"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@id/etFirstName"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -94,6 +98,7 @@
                 android:id="@+id/etPhone"
                 style="@style/textFields"
                 android:layout_marginStart="25dp"
+                android:enabled="false"
                 app:layout_constraintEnd_toEndOf="@+id/etFirstName"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvPhone"
@@ -114,6 +119,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="20dp"
                 android:text="@string/saveButtonTxt"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

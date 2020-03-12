@@ -24,7 +24,6 @@ import kotlinx.android.synthetic.main.toolbar_with_backarrow.*
 import org.json.JSONObject
 import kotlin.collections.ArrayList
 
-
 class LightsActivity : AppCompatActivity() {
     private val deviceStatusReceiver = DevicesSocketServiceReceiver()
     private lateinit var devicesSocketService: DevicesSocketService
@@ -61,15 +60,27 @@ class LightsActivity : AppCompatActivity() {
             val deviceAttributes = it.device
             val statusItems = it.deviceStatus
             val statusItemsSize: Int = statusItems.size
+
             for (i in 0 until statusItemsSize) {
                 if (statusItems[i].attributeType == SocketConstants.IOT_ATTR_TYPE_SWITCH.value) {
-                    lightView.ivSettingsIcon.tag = "${it.device.platformIdentifier}_DIMMER_ICON"
                     if (statusItems[i].value.startsWith(SocketConstants.IOT_ATTR_VALUE_SWITCH_ON.value)) {
                         lightView.tvItemStatus.setText(R.string.on)
                         lightView.ivItemStatusImage.setImageResource(R.drawable.lamp_on)
-                        lightView.ivSettingsIcon.visibility = View.VISIBLE
                         lightView.circularButtonContainer.setBackgroundResource(R.drawable.circular_opened_doors_lights)
                         hasLightOn = true
+                        // Draw the settings icon if exists fot this light
+                        var haveSettingsIcon = false
+                        for (j in 0 until statusItemsSize) {
+                            if (statusItems[j].attributeType == SocketConstants.IOT_ATTR_TYPE_SWITCH_LEVEL.value) {
+                                haveSettingsIcon = true
+                                lightView.ivSettingsIcon.tag = "${it.device.platformIdentifier}_DIMMER_ICON"
+                                lightView.ivSettingsIcon.visibility = View.VISIBLE
+                                lightSettingsIconOnClickListener(lightView.ivSettingsIcon)
+                            }
+                        }
+                        if (!haveSettingsIcon) {
+                            lightView.ivSettingsIcon.visibility = View.INVISIBLE
+                        }
                     } else {
                         lightView.tvItemStatus.setText(R.string.off)
                         lightView.ivItemStatusImage.setImageResource(R.drawable.lamp_off)
@@ -81,41 +92,20 @@ class LightsActivity : AppCompatActivity() {
             lightView.circularButtonContainer.setOnClickListener {
                 lightClickListener(deviceAttributes, lightView)
             }
-            lightSettingsIconOnClickListener(lightView.ivSettingsIcon)
             lightsStatusContainer.addView(lightView)
         }
+
         if (hasLightOn)
             rootLayout.setBackgroundResource(R.color.lightsOnYellowBack)
 
-        lightPercentageVerticalSlider.onProgressChangeListener =
-            object : VerticalSlider.OnSliderProgressChangeListener {
-                override fun onChanged(progress: Int, max: Int) {
-                    changeThePercentageTextValueAndPosition(progress)
-                    currentProgress = progress
-
-                    handler.removeCallbacksAndMessages(null);
-                    handler.postDelayed({
-                        val jsonPayload = JSONObject()
-                        jsonPayload.put(SocketConstants.KEY_COMMAND.value, SocketConstants.SWITCHES_COMMAND.value)
-                        jsonPayload.put(SocketConstants.KEY_DEVICE_TYPE.value, SocketConstants.SWITCHES_DIMMER_DEVICE_TYPE.value)
-                        jsonPayload.put(SocketConstants.KEY_ACTION.value, currentProgress)
-
-                        val deviceId=lightPercentageVerticalSlider.tag.toString().split("_")[0]
-                        val deviceItem = lightsInfoData?.filter{ p -> p.id == deviceId }?.first()
-
-                        if(deviceItem != null)
-                            devicesSocketService.changeDeviceStatus(deviceItem.device, jsonPayload)
-
-                    }, 500)
-                }
-            }
-
+        setVerticalSliderListener(false)
 
         LocalBroadcastManager.getInstance(this)
             .registerReceiver(deviceStatusReceiver, IntentFilter("listenToDevicesStatus"))
     }
-    private var handler:Handler = Handler()
-    private var currentProgress:Int = 0
+
+    private var handler: Handler = Handler()
+    private var currentProgress: Int = 0
 
     override fun onStart() {
         super.onStart()
@@ -124,54 +114,103 @@ class LightsActivity : AppCompatActivity() {
         }
     }
 
-    private fun lightClickListener(deviceAttributes: DwellingUnitDeviceAttributes, lightSwitchContainer: View) {
+    private fun setVerticalSliderListener(reset: Boolean) {
+        if (!reset) {
+            lightPercentageVerticalSlider.onProgressChangeListener =
+                object : VerticalSlider.OnSliderProgressChangeListener {
+                    override fun onChanged(progress: Int, max: Int) {
+                        changeThePercentageTextValueAndPosition(progress)
+                        currentProgress = progress
+
+                        mScrollView.requestDisallowInterceptTouchEvent(true)
+
+                        handler.removeCallbacksAndMessages(null);
+                        handler.postDelayed({
+                            val jsonPayload = JSONObject()
+                            jsonPayload.put(
+                                SocketConstants.KEY_COMMAND.value,
+                                SocketConstants.SWITCHES_COMMAND.value
+                            )
+                            jsonPayload.put(
+                                SocketConstants.KEY_DEVICE_TYPE.value,
+                                SocketConstants.SWITCHES_DIMMER_DEVICE_TYPE.value
+                            )
+                            jsonPayload.put(SocketConstants.KEY_ACTION.value, currentProgress)
+
+                            val deviceId =
+                                lightPercentageVerticalSlider.tag.toString().split("_")[0]
+                            val deviceItem =
+                                lightsInfoData?.filter { p -> p.id == deviceId }?.first()
+
+                            if (deviceItem != null)
+                                devicesSocketService.changeDeviceStatus(
+                                    deviceItem.device,
+                                    jsonPayload
+                                )
+
+                            loadingWaitingForSocketResponse(true)
+                            mScrollView.requestDisallowInterceptTouchEvent(false)
+                        }, 500)
+                    }
+                }
+        } else {
+            lightPercentageVerticalSlider.onProgressChangeListener = null
+        }
+    }
+
+    private fun lightClickListener(
+        deviceAttributes: DwellingUnitDeviceAttributes,
+        lightSwitchContainer: View
+    ) {
         resetTheSliderSettingsView()
         val jsonPayload = JSONObject()
         jsonPayload.put(SocketConstants.KEY_COMMAND.value, SocketConstants.SWITCHES_COMMAND.value)
-        jsonPayload.put(SocketConstants.KEY_DEVICE_TYPE.value, SocketConstants.SWITCHES_TOGGLE_DEVICE_TYPE.value)
+        jsonPayload.put(
+            SocketConstants.KEY_DEVICE_TYPE.value,
+            SocketConstants.SWITCHES_TOGGLE_DEVICE_TYPE.value
+        )
         if (lightSwitchContainer.tvItemStatus.text == getString(R.string.on)) {
-            jsonPayload.put(SocketConstants.KEY_ACTION.value, SocketConstants.SWITCHES_TOGGLE_ACTION_OFF.value)
+            jsonPayload.put(
+                SocketConstants.KEY_ACTION.value,
+                SocketConstants.SWITCHES_TOGGLE_ACTION_OFF.value
+            )
         } else {
-            jsonPayload.put(SocketConstants.KEY_ACTION.value, SocketConstants.SWITCHES_TOGGLE_ACTION_ON.value)
+            jsonPayload.put(
+                SocketConstants.KEY_ACTION.value,
+                SocketConstants.SWITCHES_TOGGLE_ACTION_ON.value
+            )
         }
+        loadingWaitingForSocketResponse(true)
         devicesSocketService.changeDeviceStatus(deviceAttributes, jsonPayload)
     }
 
     private fun lightSettingsIconOnClickListener(ivSettingsIcon: ImageView) {
         // Configure the settings icon on click listener
-        ivSettingsIcon.setBackgroundResource(R.drawable.circular_lights_inactive_settings)
         ivSettingsIcon.setOnClickListener {
+            setVerticalSliderListener(true)
             TransitionManager.beginDelayedTransition(rootLayout)
-            if (lightPercentageVerticalSlider.visibility == View.GONE) {
+            if (it.background == null) { // Setting is not active
+                resetTheSliderSettingsView()
                 lightPercentageVerticalSlider.visibility = View.VISIBLE
                 percentageText.visibility = View.VISIBLE
                 ivSettingsIcon.setBackgroundResource(R.drawable.circular_lights_active_settings)
-//                // new
-//                val constraintSet = ConstraintSet()
-//                constraintSet.clone(this, R.id.lightsConstraintLayout)
-//                val biasedValue = 0.2f
-//                constraintSet.setVerticalBias(R.id.lightsStatusContainer, biasedValue)
-//                constraintSet.applyTo(lightsConstraintLayout)
-
                 // Get the current live percentage
-                    lightPercentageVerticalSlider.tag = "${it.tag}_SLIDER"
-                    val deviceId=it.tag.toString().split("_")[0]
-
-
-                    val deviceItem = lightsInfoData?.filter{ p -> p.id == deviceId }?.first()
-
-                    val lightDimmerStatus = deviceItem?.deviceStatus?.filter { p2 -> p2.attributeType == SocketConstants.IOT_ATTR_TYPE_SWITCH_LEVEL.value }
-                    var lightLevel=0
-                    if(lightDimmerStatus?.get(0)?.value !=null)
-                        lightLevel = lightDimmerStatus.get(0).value.toInt()
-                    lightPercentageVerticalSlider.progress = lightLevel
-                    changeThePercentageTextValueAndPosition(lightLevel)
-                } else {
-                // TODO: handle the case if 2 or more lights on and user clicks the settings of another light if it is required later
+                lightPercentageVerticalSlider.tag = "${it.tag}_SLIDER"
+                val deviceId = it.tag.toString().split("_")[0]
+                val deviceItem = lightsInfoData?.filter { p -> p.id == deviceId }?.first()
+                val lightDimmerStatus =
+                    deviceItem?.deviceStatus?.filter { p2 -> p2.attributeType == SocketConstants.IOT_ATTR_TYPE_SWITCH_LEVEL.value }
+                var lightLevel = 0
+                if (lightDimmerStatus?.get(0)?.value != null)
+                    lightLevel = lightDimmerStatus.get(0).value.toInt()
+                lightPercentageVerticalSlider.progress = lightLevel
+                changeThePercentageTextValueAndPosition(lightLevel)
+            } else { // settings is active (have the white background)
                 lightPercentageVerticalSlider.visibility = View.GONE
                 percentageText.visibility = View.GONE
-                ivSettingsIcon.setBackgroundResource(R.drawable.circular_lights_inactive_settings)
+                ivSettingsIcon.setBackgroundResource(0)
             }
+            setVerticalSliderListener(false)
         }
     }
 
@@ -179,8 +218,18 @@ class LightsActivity : AppCompatActivity() {
         lightPercentageVerticalSlider.visibility = View.GONE
         for (i in 0 until lightsStatusContainer.children.count()) {
             val lightView: View = lightsStatusContainer.getChildAt(i)
-            lightView.ivSettingsIcon.setBackgroundResource(R.drawable.circular_lights_inactive_settings)
+            lightView.ivSettingsIcon.setBackgroundResource(0)
         }
+    }
+
+    private fun haveActiveSettingsView(): Boolean {
+        for (i in 0 until lightsStatusContainer.children.count()) {
+            val lightView: View = lightsStatusContainer.getChildAt(i)
+            if (lightView.ivSettingsIcon.background != null) {
+                return true
+            }
+        }
+        return false
     }
 
     private fun handleTheLightsScreenBackground() {
@@ -202,7 +251,7 @@ class LightsActivity : AppCompatActivity() {
         var sliderHeight = lightPercentageVerticalSlider.height
         var upperY = lightPercentageVerticalSlider.y
         var bottomY = upperY + sliderHeight
-        if(sliderHeight == 0 ) { // Not drawn yet TODO: Fix the initial status percentage doesn't appear issue
+        if (sliderHeight == 0) { // Not drawn yet TODO: Fix the initial status percentage doesn't appear issue
             sliderHeight = 1800
             upperY = 80F
             bottomY = upperY + sliderHeight
@@ -217,6 +266,34 @@ class LightsActivity : AppCompatActivity() {
         percentageText.y = bottomY - goUpWith
     }
 
+    private fun loadingWaitingForSocketResponse(beginRequest: Boolean) {
+        if (beginRequest) {
+            loadingBar.visibility = View.VISIBLE
+            lightPercentageVerticalSlider?.isClickable = false
+            lightsStatusContainer.children.forEach {
+                it.circularButtonContainer.isClickable = false
+                it.ivSettingsIcon.isClickable = false
+            }
+
+            val handler = Handler()
+            handler.postDelayed({
+                loadingBar.visibility = View.GONE
+                lightPercentageVerticalSlider?.isClickable = true
+                lightsStatusContainer.children.forEach {
+                    it.circularButtonContainer.isClickable = true
+                    it.ivSettingsIcon.isClickable = true
+                }
+            }, 10000)
+        } else {
+            loadingBar.visibility = View.GONE
+            lightPercentageVerticalSlider?.isClickable = true
+            lightsStatusContainer.children.forEach {
+                it.circularButtonContainer.isClickable = true
+                it.ivSettingsIcon.isClickable = true
+            }
+        }
+    }
+
     private fun updateLightsUI(lightsInfoData: List<DwellingUnitDevice>?) {
         lightsInfoData?.forEach {
             val lightView: View = lightsStatusContainer.findViewWithTag(it.id)
@@ -228,7 +305,25 @@ class LightsActivity : AppCompatActivity() {
                         lightView.tvItemStatus.setText(R.string.on)
                         lightView.ivItemStatusImage.setImageResource(R.drawable.lamp_on)
                         lightView.circularButtonContainer.setBackgroundResource(R.drawable.circular_opened_doors_lights)
-                        lightView.ivSettingsIcon.visibility = View.VISIBLE
+
+                        var haveSettingsIcon = false
+                        for (j in 0 until statusItemsSize) {
+                            if (statusItems[j].attributeType == SocketConstants.IOT_ATTR_TYPE_SWITCH_LEVEL.value) {
+                                lightView.ivSettingsIcon.visibility = View.VISIBLE
+                                haveSettingsIcon = true
+                                if (lightPercentageVerticalSlider.visibility == View.VISIBLE) {
+                                    if(lightIdToChangeDimmer == it.id) {
+                                        setVerticalSliderListener(true)
+                                        lightPercentageVerticalSlider.progress = statusItems[j].value.toInt()
+                                        changeThePercentageTextValueAndPosition(statusItems[j].value.toInt())
+                                        setVerticalSliderListener(false)
+                                    }
+                                }
+                            }
+                        }
+                        if (!haveSettingsIcon) {
+                            lightView.ivSettingsIcon.visibility = View.INVISIBLE
+                        }
                     } else {
                         lightView.tvItemStatus.setText(R.string.off)
                         lightView.ivItemStatusImage.setImageResource(R.drawable.lamp_off)
@@ -236,12 +331,6 @@ class LightsActivity : AppCompatActivity() {
                         lightView.ivSettingsIcon.visibility = View.INVISIBLE
                     }
                     handleTheLightsScreenBackground()
-                }
-                if (statusItems[i].attributeType == SocketConstants.IOT_ATTR_TYPE_SWITCH_LEVEL.value) {
-                    if(lightPercentageVerticalSlider.visibility == View.VISIBLE) {
-                        lightPercentageVerticalSlider.progress = statusItems[i].value.toInt()
-                        changeThePercentageTextValueAndPosition(statusItems[i].value.toInt())
-                    }
                 }
             }
         }
@@ -267,7 +356,6 @@ class LightsActivity : AppCompatActivity() {
                 p.device.function == SocketConstants.IOT_FUNCTION_LIGHT_TOGGLE.value
                         || p.device.function == SocketConstants.IOT_FUNCTION_LIGHT_DIMMER.value
             }
-
         }
 
         override fun onServiceDisconnected(arg0: ComponentName) {
@@ -275,6 +363,7 @@ class LightsActivity : AppCompatActivity() {
         }
     }
 
+    var lightIdToChangeDimmer = ""
     inner class DevicesSocketServiceReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val deviceStatusChange = intent.getSerializableExtra("deviceLiveStatus")
@@ -285,7 +374,16 @@ class LightsActivity : AppCompatActivity() {
                     p.device.function == SocketConstants.IOT_FUNCTION_LIGHT_TOGGLE.value
                             || p.device.function == SocketConstants.IOT_FUNCTION_LIGHT_DIMMER.value
                 }
-                Log.d("LIGHTS_ACTIVITY", "RECEIVED_STATUS_CHANGE from socket = ${deviceStatusModel.toString()}" )
+                Log.d(
+                    "LIGHTS_ACTIVITY",
+                    "RECEIVED_STATUS_CHANGE from socket = ${deviceStatusModel.toString()}"
+                )
+                lightsStatusContainer.children.forEach {
+                    if (deviceStatusModel.deviceID == it.tag) {
+                        loadingWaitingForSocketResponse(false)
+                        lightIdToChangeDimmer = deviceStatusModel.deviceID
+                    }
+                }
                 updateLightsUI(lightsInfoData)
             }
         }

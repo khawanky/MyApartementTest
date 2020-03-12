@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.us.singledigits.myapartment.data.models.DwellingUnit
+import com.us.singledigits.myapartment.data.models.DwellingUnitAttributes
 import com.us.singledigits.myapartment.data.models.DwellingUnitRoom
 import com.us.singledigits.myapartment.data.models.Resident
 import com.us.singledigits.myapartment.data.models.Site
@@ -19,7 +19,7 @@ import retrofit2.Response
 
 class MenuViewModel : ViewModel() {
     var resident: MutableLiveData<Resident>? = null
-    var unit: MutableLiveData<DwellingUnit>? = null
+    var unit: MutableLiveData<DwellingUnitAttributes>? = null
     var room: MutableLiveData<DwellingUnitRoom>? = null
     var site: MutableLiveData<Site>? = null
 
@@ -34,7 +34,7 @@ class MenuViewModel : ViewModel() {
         return resident
     }
 
-    fun getUnit(): LiveData<DwellingUnit>? {
+    fun getUnit(): LiveData<DwellingUnitAttributes>? {
         if (unit == null) {
             unit = MutableLiveData()
         }
@@ -61,10 +61,6 @@ class MenuViewModel : ViewModel() {
     private fun loadResidentData(id: String) {
         MenuApi().getResident(id).enqueue(object :
             Callback<ResidentResponse> {
-            override fun onFailure(call: Call<ResidentResponse>, t: Throwable) {
-                Log.d("FAILED_API", "Failed to call getResident API, Error: " + t.message)
-            }
-
             override fun onResponse(
                 call: Call<ResidentResponse>,
                 response: Response<ResidentResponse>
@@ -74,16 +70,16 @@ class MenuViewModel : ViewModel() {
                     Log.d("SUCCESS_API", "Called getResident API successfully")
                 }
             }
+
+            override fun onFailure(call: Call<ResidentResponse>, t: Throwable) {
+                Log.d("FAILED_API", "Failed to call getResident API, Error: " + t.message)
+            }
         })
     }
 
     private fun loadUnitData(id: String) {
         MenuApi().getUnit(id).enqueue(object :
             Callback<DwellingUnitResponse> {
-            override fun onFailure(call: Call<DwellingUnitResponse>, t: Throwable) {
-                Log.d("FAILED_API", "Failed to call getUnit API, Error: " + t.message)
-            }
-
             override fun onResponse(
                 call: Call<DwellingUnitResponse>,
                 response: Response<DwellingUnitResponse>
@@ -93,16 +89,15 @@ class MenuViewModel : ViewModel() {
                     Log.d("SUCCESS_API", "Called getUnit API successfully")
                 }
             }
+            override fun onFailure(call: Call<DwellingUnitResponse>, t: Throwable) {
+                Log.d("FAILED_API", "Failed to call getUnit API, Error: " + t.message)
+            }
         })
     }
 
     private fun loadRoomData(id: String) {
         MenuApi().getRoom(id).enqueue(object :
             Callback<DwellingUnitRoomResponse> {
-            override fun onFailure(call: Call<DwellingUnitRoomResponse>, t: Throwable) {
-                Log.d("FAILED_API", "Failed to call getRoom API, Error: " + t.message)
-            }
-
             override fun onResponse(
                 call: Call<DwellingUnitRoomResponse>,
                 response: Response<DwellingUnitRoomResponse>
@@ -112,21 +107,23 @@ class MenuViewModel : ViewModel() {
                     Log.d("SUCCESS_API", "Called getRoom API successfully")
                 }
             }
+            override fun onFailure(call: Call<DwellingUnitRoomResponse>, t: Throwable) {
+                Log.d("FAILED_API", "Failed to call getRoom API, Error: " + t.message)
+            }
         })
     }
 
     private fun loadSiteData(id: String) {
         MenuApi().getSite(id).enqueue(object :
             Callback<SiteResponse> {
-            override fun onFailure(call: Call<SiteResponse>, t: Throwable) {
-                Log.d("FAILED_API", "Failed to call getSite API, Error: " + t.message)
-            }
-
             override fun onResponse(call: Call<SiteResponse>, response: Response<SiteResponse>) {
                 if (response.isSuccessful) {
                     site?.value = response.body()?.site
                     Log.d("SUCCESS_API", "Called getSite API successfully")
                 }
+            }
+            override fun onFailure(call: Call<SiteResponse>, t: Throwable) {
+                Log.d("FAILED_API", "Failed to call getSite API, Error: " + t.message)
             }
         })
     }

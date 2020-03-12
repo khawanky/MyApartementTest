@@ -11,6 +11,7 @@ data class Site (
     var propertyManagerName:String,
     var phoneNumber:String,
     var emailAddress:String,
-    var websiteUrl:String
+    var websiteUrl:String,
+    var publicSsid:String
 //    val officeHours:String
 )

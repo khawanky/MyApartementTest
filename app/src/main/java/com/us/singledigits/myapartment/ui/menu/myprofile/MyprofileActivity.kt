@@ -22,8 +22,8 @@ class MyprofileActivity : AppCompatActivity() {
         toolbar_title.setText(R.string.myProfileTxt)
 
         val myProfile = intent.getSerializableExtra("myProfile") as? MyProfile
-        etEmail.setText(myProfile?.email)
-        etEmail.isEnabled = false
+        etMacAddress.setText(myProfile?.email)
+        etMacAddress.isEnabled = false
         etFirstName.setText(myProfile?.firstName)
         etLastName.setText(myProfile?.lastName)
         etPhone.setText(myProfile?.phoneNumber)

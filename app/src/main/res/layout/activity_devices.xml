@@ -18,40 +18,40 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/toolbar_with_backarrow"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        <include
+            android:id="@+id/include"
+            layout="@layout/toolbar_with_backarrow"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/gibson_regular"
-        android:text="@string/people"
-        android:textColor="@color/black4"
-        android:layout_marginTop="15dp"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/listViewPeople"
-        app:layout_constraintTop_toBottomOf="@+id/include" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/gibson_regular"
+            android:text="@string/people"
+            android:textColor="@color/black4"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/listViewPeople"
+            app:layout_constraintTop_toBottomOf="@+id/include" />
 
-    <ListView
-        android:id="@+id/listViewPeople"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayoutTabs"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_chainStyle="spread"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="18dp"
-        app:layout_constraintVertical_weight="1.2" />
+        <ListView
+            android:id="@+id/listViewPeople"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginBottom="10dp"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="4dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayoutTabs"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintVertical_weight="1.2" />
 
 
         <LinearLayout
@@ -59,24 +59,26 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/linearLayoutWifi"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_weight="2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/listViewPeople" >
+            app:layout_constraintTop_toBottomOf="@+id/listViewPeople"
+            app:layout_constraintVertical_weight="2">
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/devicesTabs"
+                style="@style/MyCustomTextAppearance"
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:layout_marginStart="18dp"
                 android:layout_marginEnd="125dp"
-                app:tabGravity="start"
                 android:textAlignment="textStart"
-                style="@style/MyCustomTextAppearance"
-                app:tabIndicatorColor="@color/black2" >
-            </com.google.android.material.tabs.TabLayout>
-
+                app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+                app:tabSelectedTextColor="@color/black2"
+                app:tabTextColor="@color/black2"
+                app:tabIndicatorHeight="2dp"
+                app:tabGravity="start"
+                app:tabIndicatorColor="@color/black2" />
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager2Devices"
                 android:layout_width="match_parent"
@@ -85,6 +87,40 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/ivAddIcon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="25dp"
+            android:contentDescription="@string/addDeviceDesc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/listViewPeople"
+            app:srcCompat="@drawable/ic_add" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutWifi"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:elevation="2dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/buPrivateWifi"
+                style="@style/wifiButtons"
+                android:layout_marginEnd="1dp"
+                android:text="@string/privateWifi" />
+
+            <Button
+                android:id="@+id/buPublicWifi"
+                style="@style/wifiButtons"
+                android:visibility="gone"
+                android:layout_marginStart="1dp"
+                android:text="@string/publicWifi" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

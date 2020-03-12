@@ -2,12 +2,14 @@ package com.us.singledigits.myapartment.ui.doors
 
 import android.content.*
 import android.os.Bundle
+import android.os.Handler
 import android.os.IBinder
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.us.singledigits.myapartment.R
 import com.us.singledigits.myapartment.commons.utils.SocketConstants
@@ -39,10 +41,11 @@ class DoorsActivity : AppCompatActivity() {
         toolbar_title.setText(R.string.doors)
 
         val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val doorsDevicesInfo = intent.extras?.getSerializable("doorsDevicesInfo") as ArrayList<DwellingUnitDevice>
+        val doorsDevicesInfo =
+            intent.extras?.getSerializable("doorsDevicesInfo") as ArrayList<DwellingUnitDevice>
 
         doorsDevicesInfo.forEach {
-            val doorView:View = inflater.inflate(R.layout.doors_widget_button, null)
+            val doorView: View = inflater.inflate(R.layout.doors_widget_button, null)
             doorView.tvItemRoom.text = it.device.name
             doorView.tag = it.device.platformIdentifier
 
@@ -79,6 +82,28 @@ class DoorsActivity : AppCompatActivity() {
         }
     }
 
+    private fun loadingWaitingForSocketResponse(beginRequest: Boolean) {
+        if (beginRequest) {
+            loadingBar.visibility = View.VISIBLE
+            doorsStatusContainer.children.forEach {
+                it.circularButtonContainer.isClickable = false
+            }
+
+            val handler = Handler()
+            handler.postDelayed({
+                loadingBar.visibility = View.GONE
+                doorsStatusContainer.children.forEach {
+                    it.circularButtonContainer.isClickable = true
+                }
+            }, 10000)
+        } else {
+            loadingBar.visibility = View.GONE
+            doorsStatusContainer.children.forEach {
+                it.circularButtonContainer.isClickable = true
+            }
+        }
+    }
+
     private fun doorClickListener(deviceAttributes: DwellingUnitDeviceAttributes, doorView: View) {
         val jsonPayload = JSONObject()
         jsonPayload.put(SocketConstants.KEY_COMMAND.value, SocketConstants.SWITCHES_COMMAND.value)
@@ -97,6 +122,7 @@ class DoorsActivity : AppCompatActivity() {
                 SocketConstants.DOORS_TOGGLE_ACTION_UNLOCK.value
             )
         }
+        loadingWaitingForSocketResponse(true)
         devicesSocketService.changeDeviceStatus(deviceAttributes, jsonPayload)
     }
 
@@ -149,9 +175,19 @@ class DoorsActivity : AppCompatActivity() {
             if (deviceStatusChange != null) {
                 val deviceStatusModel = deviceStatusChange as DeviceFromSocket
                 devicesSocketService.addOrUpdateDeviceInitialStatusItem(deviceStatusModel)
-                doorsInfoData = devicesSocketService.siteDevicesData?.filter { p -> p.device.function == SocketConstants.IOT_FUNCTION_LOCK.value }
-                Log.d("DOORS_ACTIVITY", "RECEIVED_STATUS_CHANGE from socket = ${deviceStatusModel.toString()}" )
-                updateDoorsUI(doorsInfoData)
+                doorsInfoData =
+                    devicesSocketService.siteDevicesData?.filter { p -> p.device.function == SocketConstants.IOT_FUNCTION_LOCK.value }
+                Log.d(
+                    "DOORS_ACTIVITY",
+                    "RECEIVED_STATUS_CHANGE from socket = ${deviceStatusModel.toString()}"
+                )
+
+                doorsStatusContainer.children.forEach {
+                    if (deviceStatusModel.deviceID == it.tag) {
+                        loadingWaitingForSocketResponse(false)
+                        updateDoorsUI(doorsInfoData)
+                    }
+                }
             }
         }
     }

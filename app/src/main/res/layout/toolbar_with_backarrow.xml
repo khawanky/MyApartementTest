@@ -7,11 +7,11 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/backActionBar"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
         android:layout_height="45dp"
+        android:layout_marginTop="10dp"
         android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         android:homeAsUpIndicator="@drawable/back_arrow"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,6 +21,5 @@
             android:id="@+id/toolbar_title"
             style="@style/screen_title"
             android:text="" />
-
     </androidx.appcompat.widget.Toolbar>
 </androidx.constraintlayout.widget.ConstraintLayout>

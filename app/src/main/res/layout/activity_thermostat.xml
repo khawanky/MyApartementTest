@@ -2,14 +2,248 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/thermostatHoldingAtBack"
     tools:context=".ui.thermostat.ThermostatActivity">
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/toolbar_with_backarrow"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.6"
+        android:background="@drawable/circles_top_background"
+        android:contentDescription="@string/imageContentDesc" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/toolbar_with_white_backarrow"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <ScrollView
+            android:id="@+id/mScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/lightsConstraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:id="@+id/tvDeviceName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Unit"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/gibson_regular"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toTopOf="@+id/circulareSeekThermostat"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.us.singledigits.myapartment.commons.ui.CircularSeekBar
+                    android:id="@+id/circulareSeekThermostat"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="40dp"
+                    android:padding="80dp"
+                    app:labelTextSize="18sp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.8"
+                    app:primaryProgress="60"
+                    app:primaryProgressThumbDrawable="@drawable/thumb_circle"
+                    app:primaryProgressThumbStyle="drawable"
+                    app:progressMax="80"
+                    app:progressMin="60"
+                    app:roundEdges="true"
+                    app:secondaryProgress="60"
+                    app:secondaryProgressThumbLineLength="30dp"
+                    app:secondaryProgressThumbStyle="line" />
+
+                <TextView
+                    android:id="@+id/tvStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="#FFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/tvCurrentTemp"
+                    app:layout_constraintEnd_toEndOf="@+id/tvCurrentTemp"
+                    app:layout_constraintStart_toStartOf="@+id/tvCurrentTemp" />
+
+                <TextView
+                    android:id="@+id/tvCurrentTemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gibson_semi_bold"
+                    android:gravity="center"
+                    android:textColor="#FFF"
+                    android:textSize="68sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/circulareSeekThermostat"
+                    app:layout_constraintEnd_toEndOf="@+id/circulareSeekThermostat"
+                    app:layout_constraintStart_toStartOf="@+id/circulareSeekThermostat"
+                    app:layout_constraintTop_toTopOf="@+id/circulareSeekThermostat" />
+
+                <ProgressBar
+                    android:id="@+id/loadingBar"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:indeterminateDrawable="@drawable/progress_bar"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/circulareSeekThermostat"
+                    app:layout_constraintEnd_toEndOf="@+id/circulareSeekThermostat"
+                    app:layout_constraintStart_toStartOf="@+id/circulareSeekThermostat"
+                    app:layout_constraintTop_toTopOf="@+id/circulareSeekThermostat"
+                    />
+
+                <ImageView
+                    android:id="@+id/ivMinus"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginEnd="85dp"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_plus"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivPlus"
+                    app:layout_constraintEnd_toEndOf="@+id/circulareSeekThermostat"
+                    app:layout_constraintTop_toTopOf="@+id/ivPlus"
+                    app:layout_constraintVertical_bias="0.36" />
+
+                <ImageView
+                    android:id="@+id/ivPlus"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="85dp"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_minus"
+                    app:layout_constraintBottom_toBottomOf="@+id/circulareSeekThermostat"
+                    app:layout_constraintStart_toStartOf="@+id/circulareSeekThermostat" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/modeOff"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/circular_thermostat_mode"
+                    app:layout_constraintBottom_toTopOf="@+id/tvOff"
+                    app:layout_constraintEnd_toEndOf="@+id/tvOff"
+                    app:layout_constraintStart_toStartOf="@+id/tvOff"
+                    app:layout_constraintVertical_bias="1"
+                    app:layout_constraintTop_toBottomOf="@+id/circulareSeekThermostat">
+
+                    <ImageView
+                        android:id="@+id/ivModeOff"
+                        android:layout_width="27dp"
+                        android:layout_height="27dp"
+                        android:src="@drawable/ic_off_gray"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/modeHeat"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvHeat"
+                    app:layout_constraintEnd_toEndOf="@+id/tvHeat"
+                    app:layout_constraintStart_toStartOf="@+id/tvHeat"
+                    app:layout_constraintVertical_bias="1"
+                    app:layout_constraintTop_toBottomOf="@+id/circulareSeekThermostat">
+
+                    <ImageView
+                        android:id="@+id/ivModeHeat"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/ic_heat_white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/modeCool"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvCool"
+                    app:layout_constraintEnd_toEndOf="@+id/tvCool"
+                    app:layout_constraintStart_toStartOf="@+id/tvCool"
+                    app:layout_constraintVertical_bias="1"
+                    app:layout_constraintTop_toBottomOf="@+id/circulareSeekThermostat">
+
+                    <ImageView
+                        android:id="@+id/ivModeCool"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/ic_cool_white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/tvOff"
+                    style="@style/thermostatModeText"
+                    android:text="@string/thermostatModeOff"
+                    app:layout_constraintBottom_toTopOf="@+id/tvNeedHelp"
+                    app:layout_constraintEnd_toStartOf="@+id/tvHeat"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvHeat"
+                    style="@style/thermostatModeText"
+                    android:text="@string/thermostatModeHeat"
+                    app:layout_constraintBottom_toTopOf="@+id/tvNeedHelp"
+                    app:layout_constraintEnd_toStartOf="@+id/tvCool"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/tvOff" />
+
+                <TextView
+                    android:id="@+id/tvCool"
+                    style="@style/thermostatModeText"
+                    android:text="@string/thermostatModeCool"
+                    app:layout_constraintBottom_toTopOf="@+id/tvNeedHelp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/tvHeat" />
+
+                <TextView
+                    android:id="@+id/tvNeedHelp"
+                    style="@style/gray_need_help"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

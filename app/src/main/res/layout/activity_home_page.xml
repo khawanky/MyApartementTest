@@ -20,7 +20,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         <ImageView
-            android:id="@+id/hamburger"
+            android:id="@+id/ivHamburger"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_hamburger_menu"
@@ -33,9 +33,10 @@
             android:text="@string/appTitle" />
 
         <ImageView
+            android:id="@+id/ivNotification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/notification"
+            android:src="@drawable/no_notification"
             android:layout_marginEnd="20dp"
             android:layout_gravity="end"
          />
@@ -170,12 +171,13 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvThermostatTitle" />
 
                 <TextView
-                    android:id="@+id/ivThermostatStatusIcon"
+                    android:id="@+id/tvThermostatTemperature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="72"
+                    android:text="_"
                     android:textSize="30sp"
-                    android:textColor="#FA6133"
+                    android:textColor="@color/thermostatHomeHolding"
+                    android:fontFamily="@font/gibson_regular"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

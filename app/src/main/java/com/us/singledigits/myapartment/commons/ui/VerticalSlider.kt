@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.us.singledigits.myapartment.R
+import kotlinx.android.synthetic.main.activity_lights.view.*
 
 class VerticalSlider : View {
     constructor(context: Context) : super(context)

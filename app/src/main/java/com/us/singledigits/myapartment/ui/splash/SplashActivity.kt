@@ -24,7 +24,6 @@ class SplashActivity : AppCompatActivity() {
 
     private fun afterSplash() {
         // TODO: If logged before skip to the proper activity
-
         // Show content
         buCreate.visibility = View.VISIBLE
         buLogin.visibility = View.VISIBLE

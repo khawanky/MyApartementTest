@@ -4,6 +4,7 @@ import android.content.*
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.us.singledigits.myapartment.R
@@ -15,14 +16,15 @@ import com.us.singledigits.myapartment.ui.devices.DevicesActivity
 import com.us.singledigits.myapartment.ui.doors.DoorsActivity
 import com.us.singledigits.myapartment.ui.lights.LightsActivity
 import com.us.singledigits.myapartment.ui.menu.menu_list.MenuActivity
+import com.us.singledigits.myapartment.ui.notifications.NotificationsActivity
 import com.us.singledigits.myapartment.ui.thermostat.ThermostatActivity
 import com.us.singledigits.myapartment.ui.tvguide.TvguideActivity
 import kotlinx.android.synthetic.main.activity_home_page.*
 import kotlin.collections.ArrayList
+import kotlin.math.roundToInt
 
 
 class HomePageActivity : AppCompatActivity() {
-
     private val deviceStatusReceiver = DevicesSocketServiceReceiver()
     private lateinit var devicesSocketService: DevicesSocketService
     private var devicesSocketBound = false
@@ -30,6 +32,7 @@ class HomePageActivity : AppCompatActivity() {
     private var devicesInfoData: List<DwellingUnitDevice>? = null
     private var doorsInfoData: List<DwellingUnitDevice>? = null
     private var lightsInfoData: List<DwellingUnitDevice>? = null
+    private var thermostatInfoData: List<DwellingUnitDevice>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +40,18 @@ class HomePageActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        hamburger.setOnClickListener {
+        ivHamburger.setOnClickListener {
             startActivity(Intent(applicationContext, MenuActivity::class.java))
+        }
+
+//      TODO: Check here which notification Icon to view
+        var haveNotification = false
+        if(haveNotification){
+            ivNotification.setImageResource(R.drawable.notification)
+        }
+
+        ivNotification.setOnClickListener {
+            startActivity(Intent(applicationContext, NotificationsActivity::class.java))
         }
 
         doorsTileLayout.setOnClickListener {
@@ -56,7 +69,12 @@ class HomePageActivity : AppCompatActivity() {
         }
 
         thermostatTileLayout.setOnClickListener {
-            startActivity(Intent(this, ThermostatActivity::class.java))
+            val intent = Intent(this, ThermostatActivity::class.java)
+            intent.putExtra(
+                "thermostatDeviceInfo",
+                thermostatInfoData as ArrayList<DwellingUnitDevice>
+            )
+            startActivity(intent)
         }
 
         devicesTileLayout.setOnClickListener {
@@ -101,7 +119,8 @@ class HomePageActivity : AppCompatActivity() {
 
     private fun updateHomeTilesUI(
         doorsInfoData: List<DwellingUnitDevice>?,
-        lightsInfoData: List<DwellingUnitDevice>?
+        lightsInfoData: List<DwellingUnitDevice>?,
+        thermostatInfoData: List<DwellingUnitDevice>?
     ) {
         val totalDoorsCount = doorsInfoData?.size
         var totalUnlockedDoors = 0
@@ -142,6 +161,47 @@ class HomePageActivity : AppCompatActivity() {
             tvLightsStatus.text = statusText
             ivLightsStatusIcon.setImageResource(R.drawable.opened_lamp)
         }
+
+        if (thermostatInfoData != null && thermostatInfoData.isNotEmpty()) {
+            if (thermostatInfoData.size == 1) {
+                Log.d("THERMOSTAT_STATUS", thermostatInfoData[0].deviceStatus.toString())
+                val statusItems = thermostatInfoData[0].deviceStatus
+                val statusItemsSize: Int = statusItems.size
+                for (i in 0 until statusItemsSize) {
+                    if (statusItemsSize > 0) {
+                        when (statusItems[i].attributeType) {
+                            SocketConstants.IOT_ATTR_TYPE_TEMP.value -> {
+                                Log.d("THERMOSTAT_TEMP", statusItems[i].toString())
+                                tvThermostatTemperature.text =
+                                    statusItems[i].value.toFloat().roundToInt().toString()
+                            }
+                            SocketConstants.IOT_ATTR_TYPE_THERMO_OP_STATE_CHANGED.value -> {
+                                Log.d("THERMOSTAT_CHANGE", statusItems[i].toString())
+                                when (statusItems[i].value) {
+                                    SocketConstants.IOT_ATTR_VALUE_THERMO_STATUS_IDLE.value -> {
+                                        tvThermostatStatus.text =
+                                            getString(R.string.thermostatHomeHolding)
+                                        tvThermostatTemperature.setTextColor(getColor(R.color.thermostatHomeHolding))
+                                    }
+                                    SocketConstants.IOT_ATTR_VALUE_THERMO_STATUS_HEATING.value -> {
+                                        tvThermostatStatus.text =
+                                            getString(R.string.thermostatHomeHeating)
+                                        tvThermostatTemperature.setTextColor(getColor(R.color.thermostatHomeHeating))
+                                    }
+                                    SocketConstants.IOT_ATTR_VALUE_THERMO_STATUS_COOLING.value -> {
+                                        tvThermostatStatus.text =
+                                            getString(R.string.thermostatHomeCooling)
+                                        tvThermostatTemperature.setTextColor(getColor(R.color.thermostatHomeCooling))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                Toast.makeText(this@HomePageActivity, "There are multiple thermostat", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     inner class DevicesSocketServiceReceiver : BroadcastReceiver() {
@@ -158,12 +218,18 @@ class HomePageActivity : AppCompatActivity() {
 
 //            This is just evaluating the status count and change UI initially
             devicesInfoData = devicesSocketService.siteDevicesData
-            doorsInfoData = devicesInfoData?.filter { p -> p.device.function == SocketConstants.IOT_FUNCTION_LOCK.value }
+            doorsInfoData =
+                devicesInfoData?.filter { p -> p.device.function == SocketConstants.IOT_FUNCTION_LOCK.value }
             lightsInfoData = devicesInfoData?.filter { p ->
                 p.device.function == SocketConstants.IOT_FUNCTION_LIGHT_TOGGLE.value
                         || p.device.function == SocketConstants.IOT_FUNCTION_LIGHT_DIMMER.value
             }
-            updateHomeTilesUI(doorsInfoData, lightsInfoData)
+
+            thermostatInfoData = devicesInfoData?.filter { p ->
+                p.device.function == SocketConstants.IOT_FUNCTION_THERMOSTAT.value
+            }
+
+            updateHomeTilesUI(doorsInfoData, lightsInfoData, thermostatInfoData)
         }
     }
 }

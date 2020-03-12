@@ -34,7 +34,6 @@ enum class SocketConstants(val value: String) {
     THERMOSTAT_SETPOINT_HEATING("heatingSetpoint"),
     THERMOSTAT_SETPOINT_COOLING("coolingSetpoint"),
 
-
     // IOT attributes
     IOT_ATTR_TYPE_SWITCH("switch"),
     IOT_ATTR_TYPE_LEVEL("level"),
@@ -47,7 +46,6 @@ enum class SocketConstants(val value: String) {
     IOT_ATTR_VALUE_LOCK_LOCKED("locked"),
     IOT_ATTR_VALUE_LOCK_UNLOCKED("unlocked"),
 
-
     IOT_ATTR_TYPE_TEMP("temperature"),
     IOT_ATTR_TYPE_THERMO_OP_STATE_CHANGED("thermostatOperatingStateChanged"),
     IOT_ATTR_TYPE_HEATING_SETPOINT("heatingSetpoint"),
@@ -58,16 +56,21 @@ enum class SocketConstants(val value: String) {
     IOT_ATTR_TYPE_THERMO_OP_STATE("thermostatOperatingState"),
     IOT_ATTR_VALUE_OP_STATE_CHANGED_COOLING("cooling"),
     IOT_ATTR_VALUE_THERMO_MODE_COOL("cool"),
+    IOT_ATTR_VALUE_THERMO_MODE_HEAT("heat"),
+    IOT_ATTR_VALUE_THERMO_MODE_IDLE("idle"),
+    IOT_ATTR_VALUE_THERMO_STATUS_COOLING("cooling"),
+    IOT_ATTR_VALUE_THERMO_STATUS_HEATING("heating"),
+    IOT_ATTR_VALUE_THERMO_STATUS_IDLE("idle"),
+
+
     IOT_ATTR_VALUE_FAN_MODE_FANAUTO("fanAuto"),
     IOT_ATTR_VALUE_OP_STATE_COOLING("cooling"),
 
-
-    //        IOT functions
+    // IOT functions
     IOT_FUNCTION_LIGHT_TOGGLE("light-toggle"),
     IOT_FUNCTION_LIGHT_DIMMER("light-dimmer"),
     IOT_FUNCTION_FAN("fan"),
     IOT_FUNCTION_LOCK("lock"),
     IOT_FUNCTION_THERMOSTAT("thermostat"),
     IOT_FUNCTION_OUTLET("outlet")
-
 }

@@ -10,14 +10,13 @@
     <shape
         android:innerRadius="20dp"
         android:shape="ring"
-        android:thickness="1dp"
+        android:thickness="3dp"
         android:useLevel="false" >
         <size
             android:height="40dp"
             android:width="40dp" />
-
         <gradient
-            android:centerColor="#C2CACC"
+            android:centerColor="#C0CACC"
             android:centerY="0.4"
             android:endColor="#00FFFFFF"
             android:startColor="#FFFFFF"

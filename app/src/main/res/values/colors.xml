@@ -8,10 +8,13 @@
 
     <color name="buBlue">#5D66D5</color>
     <color name="buBlueInactive">#5C66D4</color>
+    <color name="buBlueCircle">#E7F0FE</color>
     <color name="txtDarkBlue">#273195</color>
     <color name="greenSuccess">#2CC906</color>
 
     <color name="buGray">#E5E9E8</color>
+    <color name="transparentGrayBackground">#B0CBCBC7</color>
+
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="black1">#171717</color>
@@ -21,17 +24,16 @@
     <color name="black5">#505050</color>
     <color name="black6">#040404</color>
 
-
-
     <color name="gray">#ABB1B2</color>
+    <color name="gray2">#BFBFBF</color>
+    <color name="orangeNotification">#FF6767</color>
+    
 
     <color name="bu_profile_gray">#EFF1F5</color>
     <color name="shadow">#0000001A</color>
     <color name="transparent">#00000000</color>
     <color name="grayStatusBarBack">#CAD2D4</color>
-
     <color name="blue_questions_color">#0075EA</color>
-
 
     <!--    Doors, Lights, and Thermostat-->
     <color name="lightsOnYellowBack">#FBDF62</color>
@@ -39,13 +41,17 @@
     <color name="lightOffYellow">#DAC15C</color>
     <color name="grayDoorsBack">#99C9D3D4</color>
     <color name="doorUnlockGray">#AEB7B7</color>
-    <color name="thermostatHoldingAtBack">#57595F</color>
-    <color name="thermostatHeatingBack">#F88015</color>
-    <color name="thermostatCoolingAtBack">#0E7EEF</color>
-
-
-
     <color name="grayDevicesBack">#99E8E8E8</color>
 
+
+    <color name="thermostatHoldingAtBack">#343741</color>
+    <color name="thermostatHeatingToBack">#F88015</color>
+    <color name="thermostatCoolingToBack">#0E7EEF</color>
+
+    <color name="thermostatHomeHeating">#FA6133</color>
+    <color name="thermostatHomeCooling">#007FEF</color>
+    <color name="thermostatHomeHolding">#5E6062</color>
+
+    <color name="notificationIconBack" >#7B80B7</color>
 
 </resources>

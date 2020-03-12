@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.devices.PrivateWifiActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/transparentGrayBackground" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="300dp"
+        android:layout_weight="0.8"
+        android:background="@color/white">
+        <!-- this layout_weight was 2 before removing sms and email -->
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/ic_close"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvPrivateWifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gibson_regular"
+            android:text="@string/privateWifi"
+            android:textAllCaps="false"
+            android:textColor="@color/black4"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivClose"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ivClose" />
+
+        <TextView
+            android:id="@+id/tvNetworkName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gibson_semi_bold"
+            android:text="@string/networkName"
+            android:textColor="@color/black4"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPrivateWifi"
+            app:layout_constraintVertical_bias="0.106" />
+
+        <TextView
+            android:id="@+id/tvNetworkLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:fontFamily="@font/gibson_regular"
+            android:text="@string/network"
+            android:textColor="@color/black3"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvNetworkName" />
+
+        <TextView
+            android:id="@+id/tvPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gibson_semi_bold"
+            android:text="@string/networkPassword"
+            android:textColor="@color/black4"
+            android:textSize="32sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvNetworkLabel"
+            app:layout_constraintVertical_bias="0.14" />
+
+        <TextView
+            android:id="@+id/tvPassLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:fontFamily="@font/gibson_regular"
+            android:text="@string/networkPasswordLabel"
+            android:textColor="@color/black3"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPassword" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ivSMSContainer"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginStart="40dp"
+            android:background="@drawable/circular_device_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ivEmailContainer"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPassLabel"
+            app:layout_constraintVertical_bias="0.381">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/circular_help_option_icon"
+                android:src="@drawable/ic_sms"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ivEmailContainer"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/circular_device_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/ivSMSContainer"
+            app:layout_constraintTop_toBottomOf="@+id/tvPassLabel"
+            app:layout_constraintVertical_bias="0.381">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/circular_help_option_icon"
+                android:src="@drawable/ic_help_email"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tvSendSMS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sendSMS"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/gibson_semi_bold"
+            android:textColor="@color/black4"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/ivSMSContainer"
+            app:layout_constraintStart_toStartOf="@+id/ivSMSContainer"
+            app:layout_constraintTop_toBottomOf="@+id/ivSMSContainer" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sendEmail"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/gibson_semi_bold"
+            android:textColor="@color/black4"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/ivEmailContainer"
+            app:layout_constraintStart_toStartOf="@+id/ivEmailContainer"
+            app:layout_constraintTop_toBottomOf="@+id/ivEmailContainer" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

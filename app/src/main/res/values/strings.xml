@@ -87,6 +87,7 @@
     <string name="thermostat">Thermostat</string>
     <string name="devices">Devices</string>
     <string name="tvGuide">TV guide</string>
+    <string name="notifications">Notifications</string>
 
     <string name="doorsAllLocked">ALL LOCKED</string>
     <string name="doorsUnlocked">UNLOCKED</string>
@@ -94,10 +95,16 @@
     <string name="lightsAllOff">ALL OFF</string>
     <string name="lightsOn">ON</string>
 
-
     <string name="thermostatHolding">HOLDING AT</string>
-    <string name="thermostatHeating">HEATING</string>
-    <string name="thermostatCooling">COOLING</string>
+    <string name="thermostatHeating">HEATING TO</string>
+    <string name="thermostatCooling">COOLING TO</string>
+    <string name="thermostatModeOff">OFF</string>
+    <string name="thermostatModeHeat">HEAT</string>
+    <string name="thermostatModeCool">COOL</string>
+
+    <string name="thermostatHomeHolding">HOLDING AT</string>
+    <string name="thermostatHomeHeating">HEATING</string>
+    <string name="thermostatHomeCooling">COOLING</string>
 
     <string name="devicesTotal">TOTAL</string>
 
@@ -106,17 +113,33 @@
     <string name="on">ON</string>
     <string name="off">OFF</string>
 
-
     <string name="imageContentDesc">Content description</string>
-
-
     <string name="people">People</string>
     <string name="usernameMissing">username</string>
     <string name="you">You</string>
     <string name="roommate">Roommate</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="commonIssues">COMMON ISSUES</string>
+    <string name="gettingData">Getting data in progress</string>
 
+    <string name="privateWifi">Private wifi</string>
+    <string name="publicWifi">Public wifi</string>
+
+    <string name="network">NETWORK</string>
+    <string name="networkName">Network name</string>
+    <string name="networkPasswordLabel">PASSWORD</string>
+    <string name="networkPassword">Network password</string>
+    <string name="sendSMS">Send SMS</string>
+    <string name="sendEmail">Send Email</string>
+
+    <string name="addDeviceDesc">Add</string>
+    <string name="addDeviceTitle">Add a Device</string>
+    <string name="macLabel">MAC ADDRESS</string>
+    <string name="deviceNameLabel">DEVICE NAME</string>
+    <string name="whereToFindLink">Where do I find this?</string>
+
+
+    <string name="notificationTitle">Title</string>
+    <string name="notificationTime">Time</string>
 
 </resources>
