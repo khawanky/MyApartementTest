@@ -32,7 +32,7 @@ class DevicesViewModel : ViewModel() {
                     Log.d("SUCCESS_API", "Called getUnit API successfully")
 
                     val links = response.body()?.links as Links
-                    val url = StaticConstants().apiBaseUrl.dropLast(1) + links.residents
+                    val url = StaticConstants.apiBaseUrl.dropLast(1) + links.residents
                     MduApi().getUnitResidentsByUrl(token, url).enqueue(object:Callback<DwellingUnitResidentsResponse> {
                         override fun onResponse(call: Call<DwellingUnitResidentsResponse>, response: Response<DwellingUnitResidentsResponse>) {
                             Log.d("SUCCESS_API", "Called getUnitsResidentsByUrl API successfully")

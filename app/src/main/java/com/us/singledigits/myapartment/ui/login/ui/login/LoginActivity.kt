@@ -52,12 +52,12 @@ class LoginActivity : AppCompatActivity() {
             if (loginResult.success != null) {
                 setResult(Activity.RESULT_OK)
                 if(loginResult.token != null) {
-                    StaticConstants().getSharedPreferencesConfig(this)?.setToken(loginResult.token)
+                    StaticConstants.getSharedPreferencesConfig(this)?.setToken(loginResult.token)
                 }
                 if(loginResult.resident != null) {
                     val gson = Gson()
                     val jsonResident = gson.toJson(loginResult.resident)
-                    StaticConstants().getSharedPreferencesConfig(this)?.setResident(jsonResident)
+                    StaticConstants.getSharedPreferencesConfig(this)?.setResident(jsonResident)
                 }
                 goToHomeActivity()
                 finish()

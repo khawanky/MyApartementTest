@@ -53,7 +53,7 @@ interface MduApi {
     companion object {
         operator fun invoke(): MduApi {
             return Retrofit.Builder()
-                .baseUrl(StaticConstants().apiBaseUrl)
+                .baseUrl(StaticConstants.apiBaseUrl)
                 .client(OkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build().create(MduApi::class.java)

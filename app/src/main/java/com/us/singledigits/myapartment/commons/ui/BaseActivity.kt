@@ -13,8 +13,8 @@ abstract class BaseActivity : AppCompatActivity () {
     var residentModel: ResidentResponse? =  null
     val gson = Gson()
     fun loadSharedPreferenceData() {
-        token = StaticConstants().getSharedPreferencesConfig(this)?.getToken()
-        val jsonResident = StaticConstants().getSharedPreferencesConfig(this)?.getResident()
+        token = StaticConstants.getSharedPreferencesConfig(this)?.getToken()
+        val jsonResident = StaticConstants.getSharedPreferencesConfig(this)?.getResident()
         residentModel = gson.fromJson(jsonResident, ResidentResponse::class.java)
     }
 

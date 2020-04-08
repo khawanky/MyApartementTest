@@ -62,8 +62,8 @@ class DevicesSocketService : Service() {
         LocalBroadcastManager.getInstance(this)
             .registerReceiver(mMessageReceiver, IntentFilter(ACTION_NETWORK_STATE_CHANGED))
 
-        token = StaticConstants().getSharedPreferencesConfig(applicationContext)?.getToken()
-        val jsonResident = StaticConstants().getSharedPreferencesConfig(applicationContext)?.getResident()
+        token = StaticConstants.getSharedPreferencesConfig(applicationContext)?.getToken()
+        val jsonResident = StaticConstants.getSharedPreferencesConfig(applicationContext)?.getResident()
         residentModel = gson.fromJson(jsonResident, ResidentResponse::class.java)
 
         loadServiceDataAndConnect(token, residentModel)

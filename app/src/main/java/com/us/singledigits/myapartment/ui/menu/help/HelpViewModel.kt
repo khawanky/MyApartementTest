@@ -29,7 +29,7 @@ class HelpViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     Log.d("SUCCESS_API", "Called getSite API successfully")
                     val links = response.body()?.links as ResidentLinks
-                    val url = StaticConstants().apiBaseUrl.dropLast(1) + links.helpTopics
+                    val url = StaticConstants.apiBaseUrl.dropLast(1) + links.helpTopics
 
                     MduApi().getHelpTopics(token, url).enqueue(object : Callback<HelpTopicsResponse> {
                         override fun onResponse(call: Call<HelpTopicsResponse>, response: Response<HelpTopicsResponse>) {

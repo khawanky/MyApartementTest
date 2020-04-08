@@ -56,8 +56,8 @@ class AlldevicesFragment : Fragment(),
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        token = StaticConstants().getSharedPreferencesConfig(this.activity)?.getToken()
-        val jsonResident = StaticConstants().getSharedPreferencesConfig(this.activity)?.getResident()
+        token = StaticConstants.getSharedPreferencesConfig(this.activity)?.getToken()
+        val jsonResident = StaticConstants.getSharedPreferencesConfig(this.activity)?.getResident()
         residentModel = gson.fromJson(jsonResident, ResidentResponse::class.java)
 
         val model: DevicesViewModel = ViewModelProviders.of(this).get(DevicesViewModel::class.java)
