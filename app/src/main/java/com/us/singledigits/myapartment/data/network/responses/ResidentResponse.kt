@@ -1,9 +1,12 @@
 package com.us.singledigits.myapartment.data.network.responses
 
 import com.google.gson.annotations.SerializedName
-import com.us.singledigits.myapartment.data.models.Resident
+import com.us.singledigits.myapartment.data.models.ResidentAttributes
+import com.us.singledigits.myapartment.data.models.ResidentLinks
 
 data class ResidentResponse (
-    var id:String,
+    var id:Int,
     @SerializedName(value = "attributes")
-    var resident:Resident )
+    var residentAttributes:ResidentAttributes,
+    var links: ResidentLinks
+)

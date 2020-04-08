@@ -9,11 +9,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.us.singledigits.myapartment.R
 import com.us.singledigits.myapartment.data.models.MyApartment
-import com.us.singledigits.myapartment.data.models.Resident
 import com.us.singledigits.myapartment.ui.menu.help.HelpActivity
 import kotlinx.android.synthetic.main.activity_about.tvNeedHelp
 import kotlinx.android.synthetic.main.activity_myapartment.*

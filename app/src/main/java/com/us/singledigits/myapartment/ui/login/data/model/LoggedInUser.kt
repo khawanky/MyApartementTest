@@ -1,9 +1,8 @@
 package com.us.singledigits.myapartment.ui.login.data.model
 
-/**
- * Data class that captures user information for logged in users retrieved from LoginRepository
- */
+import com.us.singledigits.myapartment.data.network.responses.ResidentResponse
+
 data class LoggedInUser(
-    val userId: String,
-    val displayName: String
+    val token: String?,
+    val resident: ResidentResponse?
 )

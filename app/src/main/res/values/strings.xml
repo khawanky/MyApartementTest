@@ -8,7 +8,9 @@
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="login_failed">"Wrong username or password"</string>
+    <string name="login_failed_wrong_credentials">"Wrong username or password"</string>
+    <string name="login_success">"success"</string>
 
     <!--    Login and registration-->
     <string name="appTitle">My Apartment</string>
@@ -53,7 +55,7 @@
     <string name="doorsLocksTxt">Doors and locks</string>
     <string name="lightsFansTxt">Lights and fans</string>
     <string name="thermostatTxt">Thermostat</string>
-    <string name="tvGuideTxt">TV guide</string>
+    <string name="tvGuideTxt">Channel Lineup</string>
     <string name="accountTxt">Account</string>
 
     <string name="saveButtonTxt">Save</string>
@@ -71,7 +73,7 @@
     <string name="giveFeedback">Give feedback</string>
     <string name="privacyPolicy">Privacy policy</string>
     <string name="usePolicy">Acceptable use policy</string>
-    <string name="needHelp">Need help?</string>
+    <string name="needHelp">Need Help?</string>
 
 
     <!--    My Apartment-->
@@ -83,19 +85,31 @@
     <!--    Homepage-->
     <string name="dashes">__</string>
     <string name="doors">Doors</string>
+    <string name="door">Door</string>
     <string name="lights">Lights</string>
+    <string name="light">Light</string>
+    <string name="thermostats">Thermostats</string>
     <string name="thermostat">Thermostat</string>
+    <string name="fans">Fans</string>
+    <string name="fan">Fan</string>
+    <string name="outlets">Outlets</string>
+    <string name="outlet">Outlet</string>
     <string name="devices">Devices</string>
-    <string name="tvGuide">TV guide</string>
+    <string name="tvGuide">Channel Lineup</string>
     <string name="notifications">Notifications</string>
 
     <string name="doorsAllLocked">ALL LOCKED</string>
+    <string name="doorsAllUnlocked">ALL UNLOCKED</string>
+    <string name="doorsLocked">LOCKED</string>
     <string name="doorsUnlocked">UNLOCKED</string>
 
     <string name="lightsAllOff">ALL OFF</string>
+    <string name="lightsAllOn">ALL ON</string>
+    <string name="lightsOff">OFF</string>
     <string name="lightsOn">ON</string>
 
     <string name="thermostatHolding">HOLDING AT</string>
+    <string name="thermostatSet">SET TO</string>
     <string name="thermostatHeating">HEATING TO</string>
     <string name="thermostatCooling">COOLING TO</string>
     <string name="thermostatModeOff">OFF</string>
@@ -141,5 +155,15 @@
 
     <string name="notificationTitle">Title</string>
     <string name="notificationTime">Time</string>
+
+
+    <string name="doorsTileName">doors</string>
+    <string name="lightsTileName">lights</string>
+    <string name="thermostatsTileName">thermos</string>
+    <string name="fansTileName">fans</string>
+    <string name="outletsTileName">outlets</string>
+    <string name="devicesTileName">devices</string>
+    <string name="tvGuideTileName">tv</string>
+
 
 </resources>

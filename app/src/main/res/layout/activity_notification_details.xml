@@ -16,5 +16,83 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ivDeviceIcon"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/circular_notification_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include">
+
+        <ImageView
+            android:id="@+id/ivNotificationIcon"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_building"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tvOwnerName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintHorizontal_bias="0"
+        android:fontFamily="@font/gibson_semi_bold"
+        android:text="@string/notificationTitle"
+        android:textColor="@color/black4"
+        android:textSize="@dimen/sp_20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivDeviceIcon"
+        app:layout_constraintTop_toTopOf="@+id/ivDeviceIcon" />
+
+    <TextView
+        android:id="@+id/tvOwner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gibson_regular"
+        android:text="@string/notificationTime"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/black5"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintStart_toStartOf="@+id/tvOwnerName"
+        app:layout_constraintTop_toBottomOf="@+id/tvOwnerName" />
+
+    <ImageView
+        android:id="@+id/ivLine"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:background="@color/gray2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOwner" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/ivLine"
+        app:layout_constraintStart_toStartOf="@+id/ivLine"
+        app:layout_constraintTop_toBottomOf="@+id/ivLine"
+        app:layout_constraintVertical_bias="0"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
+    <TextView
+        android:id="@+id/tvContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="content"
+        android:textSize="@dimen/sp_17"
+        android:fontFamily="@font/gibson_regular" />
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

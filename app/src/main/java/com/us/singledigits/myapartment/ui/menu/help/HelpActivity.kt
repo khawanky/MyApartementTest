@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.help_item.view.*
 import kotlinx.android.synthetic.main.toolbar_with_backarrow.*
 
 class HelpActivity : BaseActivity(), OnHelpItemClickListener {
-
     var helpItems = ArrayList<HelpInfo>()
     var adapter: HelpAdapter? = null
 
@@ -34,18 +33,17 @@ class HelpActivity : BaseActivity(), OnHelpItemClickListener {
         supportActionBar?.setDisplayShowCustomEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         toolbar_title.setText(R.string.helpTxt)
+        loadSharedPreferenceData()
 
         val model: HelpViewModel = ViewModelProviders.of(this).get(HelpViewModel::class.java)
-        model.getHelpTopicItems()?.observe(this, Observer<List<HelpTopicListItem>> {
+        model.getHelpTopicItems(token, residentModel)?.observe(this, Observer<List<HelpTopicListItem>> {
 
             for (item in it) {
-                when(item.helpTopic.title) {
+                when(item.helpTopicAttributes.title) {
                     "Connection to  wifi" ->
-                        helpItems.add(HelpInfo(item.helpTopic.title, item.helpTopic.content,
-                            item.helpTopic.commonIssues, R.drawable.ic_help_wifi))
+                        helpItems.add(HelpInfo(item.helpTopicAttributes.title, item.helpTopicAttributes.content,
+                            item.helpTopicAttributes.commonIssues, R.drawable.ic_help_wifi))
                     // TODO: Handle other help topics here
-
-
                 }
             }
             adapter = HelpAdapter(helpItems, this)
@@ -66,7 +64,6 @@ class HelpActivity : BaseActivity(), OnHelpItemClickListener {
         intent.putExtra("title", item.title)
         intent.putExtra("commonIssues", item.commonIssues as ArrayList<String>)
         intent.putExtra("content", item.content)
-
         startActivity(intent)
     }
 
@@ -82,7 +79,7 @@ class HelpActivity : BaseActivity(), OnHelpItemClickListener {
                 val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
                 val myView = inflater.inflate(R.layout.help_item, null)
 
-                ViewHolder(helpItem, myView, myView.tvTitle, myView.ivhelpIconImage).also {
+                ViewHolder(helpItem, myView, myView.tvOwnerName, myView.ivhelpIconImage).also {
                     convertView?.tag = it
                 }
             } else {

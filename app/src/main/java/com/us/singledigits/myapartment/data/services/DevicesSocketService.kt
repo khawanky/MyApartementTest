@@ -13,13 +13,12 @@ import com.github.nkzawa.socketio.client.IO
 import com.github.nkzawa.socketio.client.Socket
 import com.google.gson.Gson
 import com.us.singledigits.myapartment.commons.utils.SocketConstants
-import com.us.singledigits.myapartment.data.models.DeviceFromSocket
-import com.us.singledigits.myapartment.data.models.DwellingUnitDevice
-import com.us.singledigits.myapartment.data.models.DwellingUnitDeviceAttributes
-import com.us.singledigits.myapartment.data.models.ServiceMetaData
-import com.us.singledigits.myapartment.data.network.api.DevicesApi
+import com.us.singledigits.myapartment.commons.utils.StaticConstants
+import com.us.singledigits.myapartment.data.models.*
+import com.us.singledigits.myapartment.data.network.api.MduApi
 import com.us.singledigits.myapartment.data.network.responses.DwellingUnitDeviceResponse
-import com.us.singledigits.myapartment.data.network.responses.ServiceResponse
+import com.us.singledigits.myapartment.data.network.responses.ResidentResponse
+import com.us.singledigits.myapartment.data.network.responses.SiteServicesResponse
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -30,12 +29,11 @@ import kotlin.collections.ArrayList
 class DevicesSocketService : Service() {
     private val mBinder: IBinder = MyDevicesServiceBinder()
     private var mSocket: Socket? = null
-    var siteDevicesData: List<DwellingUnitDevice>? = null
-
-    // TODO: Handel real dynamic Id
-    private val TEMP_ID = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-
     private var broadcaster: LocalBroadcastManager? = null
+    private var token:String? = null
+    private var residentModel:ResidentResponse? =  null
+    private val gson = Gson()
+    var siteDevicesData: List<DwellingUnitDevice>? = null
 
     val ACTION_NETWORK_STATE_CHANGED = "networkStateChanged"
 
@@ -63,7 +61,12 @@ class DevicesSocketService : Service() {
         Log.i(TAG, "onBind")
         LocalBroadcastManager.getInstance(this)
             .registerReceiver(mMessageReceiver, IntentFilter(ACTION_NETWORK_STATE_CHANGED))
-        loadServiceDataAndConnect(TEMP_ID)
+
+        token = StaticConstants().getSharedPreferencesConfig(applicationContext)?.getToken()
+        val jsonResident = StaticConstants().getSharedPreferencesConfig(applicationContext)?.getResident()
+        residentModel = gson.fromJson(jsonResident, ResidentResponse::class.java)
+
+        loadServiceDataAndConnect(token, residentModel)
         return mBinder
     }
 
@@ -79,11 +82,11 @@ class DevicesSocketService : Service() {
         onBind(intent)
     }
 
-    private fun startSocket(socketMetadata: ServiceMetaData) {
+    private fun startSocket(serviceAttributes: ServiceAttributes, token:String?, residentResponse: ResidentResponse?) {
         val opts = IO.Options()
         opts.forceNew = true
-        opts.query = "token=" + socketMetadata.websocketToken
-        mSocket = IO.socket(socketMetadata.websocketURL, opts)
+        opts.query = "token=" + serviceAttributes.websocketToken
+        mSocket = IO.socket(serviceAttributes.websocketURL, opts)
 
         mSocket?.on(Socket.EVENT_CONNECT_TIMEOUT) {
             Log.v(TAG, "Socket connection timeout")
@@ -94,18 +97,15 @@ class DevicesSocketService : Service() {
 
         mSocket?.on(Socket.EVENT_CONNECT) {
             Log.d(TAG, "Socket connected")
-            DevicesApi().getDevices(TEMP_ID).enqueue(object :
+            MduApi().getDwellingUnitDevices(token, residentResponse?.links?.dwellingUnitDevices).enqueue(object :
                 Callback<DwellingUnitDeviceResponse> {
-                override fun onResponse(
-                    call: Call<DwellingUnitDeviceResponse>,
-                    response: Response<DwellingUnitDeviceResponse>
-                ) {
+                override fun onResponse(call: Call<DwellingUnitDeviceResponse>,
+                    response: Response<DwellingUnitDeviceResponse>) {
                     if (response.isSuccessful) {
-                        Log.d("SUCCESS_API", "Called getService API successfully")
+                        Log.d("SUCCESS_API", "Called getDwellingUnitDevices API successfully")
                         var siteDevices: List<DwellingUnitDevice>? = response.body()?.data
                         if (siteDevices != null) {
-                            siteDevices =
-                                siteDevices.filter { p -> p.id != null } /* It is usefull because device may be null */
+                            siteDevices = siteDevices.filter { p -> p.id != null } /* It is usefull because device may be null */
                             siteDevicesData = siteDevices
                             siteDevicesData?.forEach { it.deviceStatus = ArrayList() }
                             siteDevices.forEach {
@@ -118,7 +118,7 @@ class DevicesSocketService : Service() {
                 override fun onFailure(call: Call<DwellingUnitDeviceResponse>, t: Throwable) {
                     Log.d(
                         "FAILED_API",
-                        "Failed to call getDevices API, can't subscribe to devices, Error: " + t.message
+                        "Failed to call getDwellingUnitDevices API, can't subscribe to devices, Error: " + t.message
                     )
                 }
             })
@@ -167,44 +167,39 @@ class DevicesSocketService : Service() {
         broadcaster?.sendBroadcast(intent)
     }
 
-    private fun loadServiceDataAndConnect(id: String) {
-        DevicesApi().getService(id).enqueue(object :
-            Callback<ServiceResponse> {
-            override fun onResponse(
-                call: Call<ServiceResponse>,
-                response: Response<ServiceResponse>
-            ) {
+    private fun loadServiceDataAndConnect(token:String?, residentResponse: ResidentResponse?) {
+        MduApi().getSiteServices(token, residentResponse?.links?.services).enqueue(object :
+            Callback<SiteServicesResponse> {
+            override fun onResponse(call: Call<SiteServicesResponse>, response: Response<SiteServicesResponse>) {
                 if (response.isSuccessful) {
-                    Log.d("SUCCESS_API", "Called getService API successfully")
-                    var serviceMetadata: ServiceMetaData? = null
+                    Log.d("SUCCESS_API", "Called getSiteServices API successfully")
+                    var serviceAttributes: ServiceAttributes? = null
                     val siteService: List<com.us.singledigits.myapartment.data.models.Service>? =
                         response.body()?.data
                     if (siteService != null) {
-                        val listIterator = siteService[0].attributes.listIterator()
+                        val listIterator = siteService.listIterator()
                         while (listIterator.hasNext()) {
-                            val attribute = listIterator.next()
-                            if (attribute.type == "iot") {
-                                serviceMetadata = attribute.metaData
+                            val service = listIterator.next()
+                            if (service.type == "iot") {
+                                serviceAttributes = service.attributes
                                 break
                             }
                         }
                     }
-                    if (serviceMetadata != null) {
-                        Log.d(
-                            "SOCKET",
-                            "Socket details available, will connect to URL:" + serviceMetadata.websocketURL
+                    if (serviceAttributes != null) {
+                        Log.d("SOCKET", "Socket details available, will connect to URL:" + serviceAttributes.websocketURL
                         )
-                        startSocket(serviceMetadata)
+                        startSocket(serviceAttributes, token, residentResponse)
                     } else {
                         Log.d("SOCKET", "No iot service details available")
                     }
                 }
             }
 
-            override fun onFailure(call: Call<ServiceResponse>, t: Throwable) {
+            override fun onFailure(call: Call<SiteServicesResponse>, t: Throwable) {
                 Log.d(
                     "FAILED_API",
-                    "Failed to call getService API, can't connect to socket, Error: " + t.message
+                    "Failed to call getSiteServices API, can't connect to socket, Error: " + t.message
                 )
             }
         })
@@ -224,7 +219,7 @@ class DevicesSocketService : Service() {
 
     // To change any device status
     fun changeDeviceStatus(deviceData: DwellingUnitDeviceAttributes, payload: JSONObject) {
-        Log.v(TAG, "changeDeviceStatus(), sent deviceData payload to change $deviceData, payload: $payload")
+        Log.d(TAG, "changeDeviceStatus(), sent deviceData payload to change $deviceData, payload: $payload")
         mSocket?.emit(
             "commandDevice",
             deviceData.platformName,
@@ -238,11 +233,13 @@ class DevicesSocketService : Service() {
         )
     }
 
-    fun addOrUpdateDeviceInitialStatusItem(deviceStatusModel: DeviceFromSocket) {
+    fun addOrUpdateDeviceInitialStatusItem(deviceStatusModel: DeviceFromSocket) : String {
+        var functionChanged = ""
         if (siteDevicesData != null) {
             val size: Int = siteDevicesData!!.size
             for (i in 0 until size) {
                 if (siteDevicesData!![i].device.platformIdentifier == deviceStatusModel.deviceID) {
+                    functionChanged = siteDevicesData!![i].device.function
                     if (siteDevicesData!![i].deviceStatus
                             .filter { it.attributeType == deviceStatusModel.attributeType }
                             .any()
@@ -263,6 +260,7 @@ class DevicesSocketService : Service() {
                 }
             }
         }
+        return functionChanged
     }
 
     inner class MyDevicesServiceBinder : Binder() {

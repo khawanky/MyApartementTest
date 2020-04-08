@@ -337,7 +337,7 @@ class CircularSeekBar @JvmOverloads constructor(
         primaryProgressUpdated(false)
         secondaryProgressUpdated(false)
     }
-
+    
     fun animatePrimaryTo(primaryUpdated: Float, duration: Long = 2000, interpolator: TimeInterpolator = AccelerateDecelerateInterpolator()) {
         animateTo(primaryProgress, primaryUpdated, duration, interpolator,
             {

@@ -13,8 +13,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.gson.Gson
 import com.us.singledigits.myapartment.R
+import com.us.singledigits.myapartment.commons.utils.StaticConstants
 import com.us.singledigits.myapartment.data.models.Device
+import com.us.singledigits.myapartment.data.network.responses.ResidentResponse
 import kotlinx.android.synthetic.main.devices_list_item.view.*
 import kotlinx.android.synthetic.main.fragment_alldevices.*
 
@@ -40,6 +43,9 @@ class AlldevicesFragment : Fragment(),
 
     var devicesItems = ArrayList<DeviceInfo>()
     var devicesAdapter: DevicesAdapter? = null
+    private var token:String? = null
+    private var residentModel: ResidentResponse? =  null
+    private val gson = Gson()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,16 +55,17 @@ class AlldevicesFragment : Fragment(),
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        token = StaticConstants().getSharedPreferencesConfig(this.activity)?.getToken()
+        val jsonResident = StaticConstants().getSharedPreferencesConfig(this.activity)?.getResident()
+        residentModel = gson.fromJson(jsonResident, ResidentResponse::class.java)
+
         val model: DevicesViewModel = ViewModelProviders.of(this).get(DevicesViewModel::class.java)
-        model.getAllDevicesItems()?.observe(viewLifecycleOwner, Observer<List<Device>> {
+        model.getAllDevicesItems(token, residentModel)?.observe(viewLifecycleOwner, Observer<List<Device>> {
             if (it != null) {
                 for (item in it) {
                     // TODO: Check for the real status and get the real device icon
-                    devicesItems.add(DeviceInfo(item.attributes.name, item.attributes.type,
+                    devicesItems.add(DeviceInfo(item.attributes.name,
                         "Unknown", item.attributes.macAddress,
                         R.drawable.computer , item.isPersonal
                     ))
@@ -130,7 +137,6 @@ class AlldevicesFragment : Fragment(),
     override fun onItemClick(item: DeviceInfo) {
         val intent = Intent(activity, AddDeviceActivity::class.java)
         intent.putExtra("name", item.name)
-        intent.putExtra("type", item.type)
         intent.putExtra("macAddress", item.macAddress)
         startActivity(intent)
     }
@@ -147,7 +153,7 @@ class AlldevicesFragment : Fragment(),
                 val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
                 val myView = inflater.inflate(R.layout.devices_list_item, null)
 
-                DeviceViewHolder(deviceItem, myView, myView.tvTitle, myView.notificationIconContainer).also {
+                DeviceViewHolder(deviceItem, myView, myView.tvOwnerName, myView.ivDeviceIcon).also {
                     convertView?.tag = it
                 }
             } else {

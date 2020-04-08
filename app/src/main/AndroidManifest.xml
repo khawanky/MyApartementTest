@@ -12,46 +12,50 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.notifications.NotificationDetailsActivity"></activity>
-        <activity android:name=".ui.notifications.NotificationsActivity" />
+        <activity android:name=".ui.outlets.OutletsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.fans.FansActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.notifications.NotificationDetailsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.notifications.NotificationsActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.devices.PublicWifiActivity"
             android:theme="@style/Theme.Transparent"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.devices.PrivateWifiActivity"
             android:theme="@style/Theme.Transparent"
-            android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".ui.devices.AddDeviceActivity" />
-        <activity android:name=".ui.devices.DeviceInfoActivity" />
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.devices.AddDeviceActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.devices.DeviceInfoActivity" android:screenOrientation="portrait" />
 
         <service
             android:name=".data.services.DevicesSocketService"
             android:exported="false" />
 
-        <activity android:name=".ui.tvguide.TvguideActivity" />
-        <activity android:name=".ui.thermostat.ThermostatActivity" />
-        <activity android:name=".ui.lights.LightsActivity" />
-        <activity android:name=".ui.devices.DevicesActivity" />
-        <activity android:name=".ui.doors.DoorsActivity" />
-        <activity android:name=".ui.menu.help.HelpInfoActivity" />
-        <activity android:name=".ui.menu.myprofile.MyprofileActivity" />
-        <activity android:name=".ui.menu.myapartment.MyapartmentActivity" />
-        <activity android:name=".ui.menu.help.HelpActivity" />
-        <activity android:name=".ui.menu.about.AboutActivity" />
-        <activity android:name=".ui.menu.menu_list.MenuActivity" />
-        <activity android:name=".ui.create_account.password.EnterPasswordActivity" />
-        <activity android:name=".ui.create_account.email.EmailCheckerActivity" />
-        <activity android:name=".ui.create_account.vcode.VerificationCodeActivity" />
-        <activity android:name=".ui.create_account.information.AccountInfoActivity" />
-        <activity android:name=".ui.home.HomePageActivity" />
+        <activity android:name=".ui.tvguide.TvguideActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.thermostat.ThermostatActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.lights.LightsActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.devices.DevicesActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.doors.DoorsActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.menu.help.HelpInfoActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.menu.myprofile.MyprofileActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.menu.myapartment.MyapartmentActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.menu.help.HelpActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.menu.about.AboutActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.menu.menu_list.MenuActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.create_account.password.EnterPasswordActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.create_account.email.EmailCheckerActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.create_account.vcode.VerificationCodeActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.create_account.information.AccountInfoActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.home.HomePageActivity" android:screenOrientation="portrait" />
         <activity
             android:name=".ui.login.ui.login.LoginActivity"
-            android:label="@string/title_activity_login" />
-        <activity android:name=".ui.splash.SplashActivity">
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.splash.SplashActivity" android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/notificationIconContainer"
+                android:id="@+id/ivDeviceIcon"
                 android:layout_width="23dp"
                 android:layout_height="23dp"
                 android:src="@drawable/computer"
@@ -33,7 +33,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/tvOwnerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

@@ -4,14 +4,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.devices.MydevicesFragment">
-    <ListView
-        android:id="@+id/lvMyDevices"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="4dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="18dp" />
+
 </FrameLayout>

@@ -5,28 +5,31 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.us.singledigits.myapartment.R
+import com.us.singledigits.myapartment.commons.ui.BaseActivity
 import com.us.singledigits.myapartment.data.models.DwellingUnitAttributes
+import com.us.singledigits.myapartment.ui.menu.menu_list.MenuViewModel
 import kotlinx.android.synthetic.main.activity_private_wifi.*
 
 
-class PrivateWifiActivity : AppCompatActivity() {
+class PrivateWifiActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_private_wifi)
+
         ivClose.setOnClickListener {
             this.finish()
         }
+        loadSharedPreferenceData()
 
         var networkName = ""
         var networkPassword = ""
         var unitLabel = ""
 
-        val model: DevicesViewModel = ViewModelProviders.of(this).get(DevicesViewModel::class.java)
-        model.getUnit()?.observe(this, Observer<DwellingUnitAttributes> {
+        val model: MenuViewModel = ViewModelProviders.of(this).get(MenuViewModel::class.java)
+        model.getDwellingUnit(token, residentModel)?.observe(this, Observer<DwellingUnitAttributes> {
             networkName =it.privateSsid
             networkPassword = it.privateSsidPassword
             unitLabel = "Unit " + it.unitLabel

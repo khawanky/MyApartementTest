@@ -18,6 +18,7 @@ import com.us.singledigits.myapartment.data.models.DeviceFromSocket
 import com.us.singledigits.myapartment.data.models.DwellingUnitDevice
 import com.us.singledigits.myapartment.data.models.DwellingUnitDeviceAttributes
 import com.us.singledigits.myapartment.data.services.DevicesSocketService
+import com.us.singledigits.myapartment.ui.menu.help.HelpActivity
 import kotlinx.android.synthetic.main.activity_lights.*
 import kotlinx.android.synthetic.main.lights_widget_button.view.*
 import kotlinx.android.synthetic.main.toolbar_with_backarrow.*
@@ -47,9 +48,17 @@ class LightsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         toolbar_title.setText(R.string.lights)
 
+        tvNeedHelp.setOnClickListener {
+            this.startActivity(Intent(this, HelpActivity::class.java))
+        }
+
         val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val lightsDevicesInfo =
             intent.extras?.getSerializable("lightsDevicesInfo") as ArrayList<DwellingUnitDevice>
+
+        if (lightsDevicesInfo.size == 1) {
+            toolbar_title.setText(R.string.light)
+        }
 
         var hasLightOn = false
         lightsDevicesInfo.forEach {
@@ -61,26 +70,15 @@ class LightsActivity : AppCompatActivity() {
             val statusItems = it.deviceStatus
             val statusItemsSize: Int = statusItems.size
 
+            var isLightOn=false
             for (i in 0 until statusItemsSize) {
                 if (statusItems[i].attributeType == SocketConstants.IOT_ATTR_TYPE_SWITCH.value) {
                     if (statusItems[i].value.startsWith(SocketConstants.IOT_ATTR_VALUE_SWITCH_ON.value)) {
                         lightView.tvItemStatus.setText(R.string.on)
                         lightView.ivItemStatusImage.setImageResource(R.drawable.lamp_on)
                         lightView.circularButtonContainer.setBackgroundResource(R.drawable.circular_opened_doors_lights)
-                        hasLightOn = true
-                        // Draw the settings icon if exists fot this light
-                        var haveSettingsIcon = false
-                        for (j in 0 until statusItemsSize) {
-                            if (statusItems[j].attributeType == SocketConstants.IOT_ATTR_TYPE_SWITCH_LEVEL.value) {
-                                haveSettingsIcon = true
-                                lightView.ivSettingsIcon.tag = "${it.device.platformIdentifier}_DIMMER_ICON"
-                                lightView.ivSettingsIcon.visibility = View.VISIBLE
-                                lightSettingsIconOnClickListener(lightView.ivSettingsIcon)
-                            }
-                        }
-                        if (!haveSettingsIcon) {
-                            lightView.ivSettingsIcon.visibility = View.INVISIBLE
-                        }
+                        isLightOn=true
+                        hasLightOn=true
                     } else {
                         lightView.tvItemStatus.setText(R.string.off)
                         lightView.ivItemStatusImage.setImageResource(R.drawable.lamp_off)
@@ -89,6 +87,19 @@ class LightsActivity : AppCompatActivity() {
                     }
                 }
             }
+
+            // Set Listener of the settings icon if exists for this light and let it visible if light on
+            for (j in 0 until statusItemsSize) {
+                if (statusItems[j].attributeType == SocketConstants.IOT_ATTR_TYPE_SWITCH_LEVEL.value) {
+                    lightView.ivSettingsIcon.tag = "${it.device.platformIdentifier}_DIMMER_ICON"
+                    lightSettingsIconOnClickListener(lightView.ivSettingsIcon)
+                    if(isLightOn)
+                        lightView.ivSettingsIcon.visibility = View.VISIBLE
+                    else
+                        lightView.ivSettingsIcon.visibility = View.INVISIBLE
+                }
+            }
+
             lightView.circularButtonContainer.setOnClickListener {
                 lightClickListener(deviceAttributes, lightView)
             }
@@ -312,9 +323,10 @@ class LightsActivity : AppCompatActivity() {
                                 lightView.ivSettingsIcon.visibility = View.VISIBLE
                                 haveSettingsIcon = true
                                 if (lightPercentageVerticalSlider.visibility == View.VISIBLE) {
-                                    if(lightIdToChangeDimmer == it.id) {
+                                    if (lightIdToChangeDimmer == it.id) {
                                         setVerticalSliderListener(true)
-                                        lightPercentageVerticalSlider.progress = statusItems[j].value.toInt()
+                                        lightPercentageVerticalSlider.progress =
+                                            statusItems[j].value.toInt()
                                         changeThePercentageTextValueAndPosition(statusItems[j].value.toInt())
                                         setVerticalSliderListener(false)
                                     }
@@ -364,6 +376,7 @@ class LightsActivity : AppCompatActivity() {
     }
 
     var lightIdToChangeDimmer = ""
+
     inner class DevicesSocketServiceReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val deviceStatusChange = intent.getSerializableExtra("deviceLiveStatus")
@@ -378,13 +391,18 @@ class LightsActivity : AppCompatActivity() {
                     "LIGHTS_ACTIVITY",
                     "RECEIVED_STATUS_CHANGE from socket = ${deviceStatusModel.toString()}"
                 )
+
+                var responseReceived = false
                 lightsStatusContainer.children.forEach {
                     if (deviceStatusModel.deviceID == it.tag) {
-                        loadingWaitingForSocketResponse(false)
+                        responseReceived = true
                         lightIdToChangeDimmer = deviceStatusModel.deviceID
                     }
                 }
                 updateLightsUI(lightsInfoData)
+                if (responseReceived) {
+                    loadingWaitingForSocketResponse(false)
+                }
             }
         }
     }

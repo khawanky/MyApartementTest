@@ -17,6 +17,7 @@ import com.us.singledigits.myapartment.data.models.DeviceFromSocket
 import com.us.singledigits.myapartment.data.models.DwellingUnitDevice
 import com.us.singledigits.myapartment.data.models.DwellingUnitDeviceAttributes
 import com.us.singledigits.myapartment.data.services.DevicesSocketService
+import com.us.singledigits.myapartment.ui.menu.help.HelpActivity
 import kotlinx.android.synthetic.main.activity_doors.*
 import kotlinx.android.synthetic.main.doors_widget_button.view.*
 import kotlinx.android.synthetic.main.toolbar_with_backarrow.*
@@ -40,9 +41,17 @@ class DoorsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         toolbar_title.setText(R.string.doors)
 
+        tvNeedHelp.setOnClickListener {
+            this.startActivity(Intent(this, HelpActivity::class.java))
+        }
+
         val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val doorsDevicesInfo =
             intent.extras?.getSerializable("doorsDevicesInfo") as ArrayList<DwellingUnitDevice>
+
+        if(doorsDevicesInfo.size == 1) {
+            toolbar_title.setText(R.string.door)
+        }
 
         doorsDevicesInfo.forEach {
             val doorView: View = inflater.inflate(R.layout.doors_widget_button, null)
@@ -86,20 +95,20 @@ class DoorsActivity : AppCompatActivity() {
         if (beginRequest) {
             loadingBar.visibility = View.VISIBLE
             doorsStatusContainer.children.forEach {
-                it.circularButtonContainer.isClickable = false
+                it.circularButtonContainer.isEnabled = false
             }
 
             val handler = Handler()
             handler.postDelayed({
                 loadingBar.visibility = View.GONE
                 doorsStatusContainer.children.forEach {
-                    it.circularButtonContainer.isClickable = true
+                    it.circularButtonContainer.isEnabled = true
                 }
             }, 10000)
         } else {
             loadingBar.visibility = View.GONE
             doorsStatusContainer.children.forEach {
-                it.circularButtonContainer.isClickable = true
+                it.circularButtonContainer.isEnabled = true
             }
         }
     }
@@ -184,8 +193,8 @@ class DoorsActivity : AppCompatActivity() {
 
                 doorsStatusContainer.children.forEach {
                     if (deviceStatusModel.deviceID == it.tag) {
-                        loadingWaitingForSocketResponse(false)
                         updateDoorsUI(doorsInfoData)
+                        loadingWaitingForSocketResponse(false)
                     }
                 }
             }

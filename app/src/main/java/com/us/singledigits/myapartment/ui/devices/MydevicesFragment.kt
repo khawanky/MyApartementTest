@@ -4,19 +4,20 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.us.singledigits.myapartment.R
+import com.us.singledigits.myapartment.commons.utils.StaticConstants
 import com.us.singledigits.myapartment.data.models.Device
-import kotlinx.android.synthetic.main.devices_list_item.view.*
-import kotlinx.android.synthetic.main.fragment_mydevices.*
+import com.us.singledigits.myapartment.data.network.responses.ResidentResponse
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,7 +40,13 @@ class MydevicesFragment : Fragment(),
     private var listener: OnFragmentInteractionListener? = null
 
     var devicesItems = ArrayList<DeviceInfo>()
-    var devicesAdapter: DevicesAdapter? = null
+
+    private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var  devicesAdapter: RecyclerDevicesAdapter
+
+    private var token:String? = null
+    private var residentModel: ResidentResponse? =  null
+    private val gson = Gson()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,29 +54,38 @@ class MydevicesFragment : Fragment(),
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        token = StaticConstants().getSharedPreferencesConfig(this.activity)?.getToken()
+        val jsonResident = StaticConstants().getSharedPreferencesConfig(this.activity)?.getResident()
+        residentModel = gson.fromJson(jsonResident, ResidentResponse::class.java)
+
+        // List
+        viewManager = LinearLayoutManager(context)
+        val rv = RecyclerView(context!!)
+        rv.layoutManager = viewManager
+        rv.setHasFixedSize(true)
+
+
         val model: DevicesViewModel = ViewModelProviders.of(this).get(DevicesViewModel::class.java)
-        model.getMyDevicesItems()?.observe(viewLifecycleOwner, Observer<List<Device>> {
+        model.getMyDevicesItems(token,residentModel)?.observe(viewLifecycleOwner, Observer<List<Device>> {
             if (it != null) {
                 for (item in it) {
                     // TODO: Check for the real status and get the real device icon
-                    devicesItems.add(DeviceInfo(item.attributes.name, item.attributes.type,
+                    devicesItems.add(DeviceInfo(item.attributes.name,
                         "Unknown", item.attributes.macAddress,
                         R.drawable.computer, item.isPersonal
                     ))
                 }
-                devicesAdapter = DevicesAdapter(devicesItems, this)
-                lvMyDevices.adapter = devicesAdapter
+                devicesAdapter = RecyclerDevicesAdapter(devicesItems)
+                rv.adapter = devicesAdapter
             }
         })
-
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mydevices, container, false)
+        return rv
+//        inflater.inflate(R.layout.fragment_mydevices, container, false)
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -130,12 +146,11 @@ class MydevicesFragment : Fragment(),
     override fun onItemClick(item: DeviceInfo) {
         val intent = Intent(activity, AddDeviceActivity::class.java)
         intent.putExtra("name", item.name)
-        intent.putExtra("type", item.type)
         intent.putExtra("macAddress", item.macAddress)
         startActivity(intent)
     }
 
-    inner class DevicesAdapter(
+   /* inner class DevicesAdapter(
         private val devicesList: ArrayList<DeviceInfo>,
         private val listener12: OnMyDeviceItemClickListener? = null
     ) : BaseAdapter() {
@@ -147,7 +162,7 @@ class MydevicesFragment : Fragment(),
                 val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
                 val myView = inflater.inflate(R.layout.devices_list_item, null)
 
-                DeviceViewHolder(deviceItem, myView, myView.tvTitle, myView.notificationIconContainer).also {
+                DeviceViewHolder(deviceItem, myView, myView.tvOwnerName, myView.ivDeviceIcon).also {
                     convertView?.tag = it
                 }
             } else {
@@ -181,7 +196,7 @@ class MydevicesFragment : Fragment(),
             val tvName: TextView,
             val ivProfileImage: ImageView
         )
-    }
+    }*/
 }
 
 interface OnMyDeviceItemClickListener {

@@ -48,9 +48,9 @@
     <color name="thermostatHeatingToBack">#F88015</color>
     <color name="thermostatCoolingToBack">#0E7EEF</color>
 
-    <color name="thermostatHomeHeating">#FA6133</color>
-    <color name="thermostatHomeCooling">#007FEF</color>
-    <color name="thermostatHomeHolding">#5E6062</color>
+    <color name="thermostatHomeHeatMode">#FA6133</color>
+    <color name="thermostatHomeCoolMode">#007FEF</color>
+    <color name="thermostatHomeOffMode">#5E6062</color>
 
     <color name="notificationIconBack" >#7B80B7</color>
 

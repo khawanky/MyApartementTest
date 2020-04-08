@@ -4,8 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.us.singledigits.myapartment.commons.utils.StaticConstants
 import com.us.singledigits.myapartment.data.models.*
-import com.us.singledigits.myapartment.data.network.api.MenuApi
+import com.us.singledigits.myapartment.data.network.api.MduApi
 import com.us.singledigits.myapartment.data.network.responses.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -14,26 +15,37 @@ import retrofit2.Response
 class HelpViewModel : ViewModel() {
     var helpTopicsItems: MutableLiveData<List<HelpTopicListItem>>? = null
 
-    fun getHelpTopicItems(): LiveData<List<HelpTopicListItem>>? {
+    fun getHelpTopicItems(token:String?, residentResponse: ResidentResponse?): LiveData<List<HelpTopicListItem>>? {
         if (helpTopicsItems == null) {
             helpTopicsItems = MutableLiveData()
         }
-        loadHelpTopicsData()
+        loadHelpTopicsData(token, residentResponse?.links?.site)
         return helpTopicsItems
     }
 
-    private fun loadHelpTopicsData() {
-        MenuApi().getHelpTopics().enqueue(object :
-            Callback<HelpTopicsResponse> {
-            override fun onFailure(call: Call<HelpTopicsResponse>, t: Throwable) {
-                Log.d("FAILED_API", "Failed to call getHelpTopics API, Error: " + t.message)
-            }
-
-            override fun onResponse(call: Call<HelpTopicsResponse>, response: Response<HelpTopicsResponse>) {
+    private fun loadHelpTopicsData(token:String?, url: String?) {
+        MduApi().getSite(token, url).enqueue(object : Callback<SiteResponse> {
+            override fun onResponse(call: Call<SiteResponse>, response: Response<SiteResponse>) {
                 if (response.isSuccessful) {
-                    Log.d("SUCCESS_API", "Called getHelpTopics API successfully")
-                    helpTopicsItems?.value = response.body()?.helpTopicItems
+                    Log.d("SUCCESS_API", "Called getSite API successfully")
+                    val links = response.body()?.links as ResidentLinks
+                    val url = StaticConstants().apiBaseUrl.dropLast(1) + links.helpTopics
+
+                    MduApi().getHelpTopics(token, url).enqueue(object : Callback<HelpTopicsResponse> {
+                        override fun onResponse(call: Call<HelpTopicsResponse>, response: Response<HelpTopicsResponse>) {
+                            if (response.isSuccessful) {
+                                Log.d("SUCCESS_API", "Called getHelpTopics API successfully")
+                                helpTopicsItems?.value = response.body()?.helpTopicItems
+                            }
+                        }
+                        override fun onFailure(call: Call<HelpTopicsResponse>, t: Throwable) {
+                            Log.d("FAILED_API", "Failed to call getHelpTopics API, Error: " + t.message)
+                        }
+                    })
                 }
+            }
+            override fun onFailure(call: Call<SiteResponse>, t: Throwable) {
+                Log.d("FAILED_API", "Failed to call getSite API, Error: " + t.message)
             }
         })
     }

@@ -16,6 +16,7 @@ import com.us.singledigits.myapartment.data.models.DeviceFromSocket
 import com.us.singledigits.myapartment.data.models.DwellingUnitDevice
 import com.us.singledigits.myapartment.data.models.DwellingUnitDeviceAttributes
 import com.us.singledigits.myapartment.data.services.DevicesSocketService
+import com.us.singledigits.myapartment.ui.menu.help.HelpActivity
 import kotlinx.android.synthetic.main.activity_thermostat.*
 import kotlinx.android.synthetic.main.toolbar_with_backarrow.*
 import kotlinx.android.synthetic.main.toolbar_with_backarrow.backActionBar
@@ -30,16 +31,20 @@ class ThermostatActivity : AppCompatActivity() {
     private var devicesSocketBound = false
     private var thermostatInfoData: List<DwellingUnitDevice>? = null
 
+    private val handlerLoading = Handler()
+    private var handlerPlusAndMinus = Handler()
+
     //    Thermostat returned data
-    var thermostatMode=SocketConstants.THERMOSTAT_MODE_OFF.value // cool, heat, off
-    var thermostatStatus="" // heating, cooling, idle
-    var thermostatSetPoint=""
-    var thermostatTemperature=""
-    var deviceId = ""
+    private var thermostatMode="" // cool, heat, off
+    private var thermostatStatus="" // heating, cooling, idle
+    private var thermostatSetPoint=""
+    private var thermostatTemperature=""
+    private var deviceId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_thermostat)
+
         // Action bar
         setSupportActionBar(backActionBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
@@ -49,20 +54,21 @@ class ThermostatActivity : AppCompatActivity() {
         ivBackArrow.setOnClickListener{
             this.finish()
         }
+        tvNeedHelp.setOnClickListener {
+            this.startActivity(Intent(this, HelpActivity::class.java))
+        }
 
         circulareSeekThermostat.progress = circulareSeekThermostat.progressMin
 
-        val thermostatDeviceInfo = intent.extras?.getSerializable("thermostatDeviceInfo") as ArrayList<DwellingUnitDevice>
-        updateThermostatUI(thermostatDeviceInfo)
-        val deviceAttributes = thermostatDeviceInfo[0].device
+        val thermostatsDeviceInfo = intent.extras?.getSerializable("thermostatsDeviceInfo") as ArrayList<DwellingUnitDevice>
+        updateThermostatUI(thermostatsDeviceInfo)
+        val deviceAttributes = thermostatsDeviceInfo[0].device
         deviceId = deviceAttributes.platformIdentifier
-
-        var handler = Handler()
 
         ivMinus.setOnClickListener{
             circulareSeekThermostat.primaryProgress ++
-            handler.removeCallbacksAndMessages(null);
-            handler.postDelayed({
+            handlerPlusAndMinus.removeCallbacksAndMessages(null);
+            handlerPlusAndMinus.postDelayed({
                 loadingWaitingForSocketResponse(true)
                 thermostatSetPoint = circulareSeekThermostat.primaryProgress.toString()
                 submitThermostatChangesToWebSocket(deviceAttributes)
@@ -71,8 +77,8 @@ class ThermostatActivity : AppCompatActivity() {
 
         ivPlus.setOnClickListener{
             circulareSeekThermostat.primaryProgress --
-            handler.removeCallbacksAndMessages(null);
-            handler.postDelayed({
+            handlerPlusAndMinus.removeCallbacksAndMessages(null);
+            handlerPlusAndMinus.postDelayed({
                 loadingWaitingForSocketResponse(true)
                 thermostatSetPoint = circulareSeekThermostat.primaryProgress.toString()
                 submitThermostatChangesToWebSocket(deviceAttributes)
@@ -102,15 +108,15 @@ class ThermostatActivity : AppCompatActivity() {
                                            primaryProgress: Float, secondaryProgress: Float,
                                            fromUser: Boolean) {
                 tvCurrentTemp.text = primaryProgress.roundToInt().toString()
-                handleTheLinePositionAndBackgourdColor()
+//                handleTheLinePositionAndBackgourdColor()
             }
             override fun onStartTrackingTouch(circularSeekBar: CircularSeekBar) {
             }
             override fun onStopTrackingTouch(circularSeekBar: CircularSeekBar) {
                 if(circulareSeekThermostat.primaryProgress.roundToInt() != circulareSeekThermostat.secondaryProgress.roundToInt()) {
-                    loadingWaitingForSocketResponse(true)
                     thermostatSetPoint = circulareSeekThermostat.primaryProgress.toString()
                     submitThermostatChangesToWebSocket(deviceAttributes)
+                    loadingWaitingForSocketResponse(true)
                 }
             }
         }
@@ -171,18 +177,19 @@ class ThermostatActivity : AppCompatActivity() {
             ivPlus.isClickable = false
             circulareSeekThermostat.isEnabled = false
             loadingBar.visibility = View.VISIBLE
-            val handler = Handler()
-            handler.postDelayed({
+            handlerLoading.removeCallbacksAndMessages(null)
+            handlerLoading.postDelayed({
                 tvOff.isClickable = true
                 tvCool.isClickable = true
                 tvHeat.isClickable = true
                 ivMinus.isClickable = true
                 ivPlus.isClickable = true
                 circulareSeekThermostat.isEnabled = true
-                loadingBar.visibility = View.GONE
                 updateThermostatUI(thermostatInfoData)
+                loadingBar.visibility = View.GONE
             }, 10000)
         } else {
+            handlerLoading.removeCallbacksAndMessages(null)
             tvOff.isClickable = true
             tvCool.isClickable = true
             tvHeat.isClickable = true
@@ -199,10 +206,12 @@ class ThermostatActivity : AppCompatActivity() {
         jsonPayload.put(SocketConstants.KEY_DEVICE_TYPE.value, SocketConstants.THERMOSTAT_DEVICE_TYPE.value)
         jsonPayload.put(SocketConstants.IOT_ATTR_TYPE_THERMO_MODE.value, thermostatMode)
 
+        val setPointToSend = thermostatSetPoint.toFloat().roundToInt().toFloat().toString()
+
         if (thermostatMode == SocketConstants.IOT_ATTR_VALUE_THERMO_MODE_HEAT.value) {
-            jsonPayload.put(SocketConstants.IOT_ATTR_TYPE_HEATING_SETPOINT.value, thermostatSetPoint)
+            jsonPayload.put(SocketConstants.IOT_ATTR_TYPE_HEATING_SETPOINT.value, setPointToSend)
         } else if (thermostatMode == SocketConstants.IOT_ATTR_VALUE_THERMO_MODE_COOL.value) {
-            jsonPayload.put(SocketConstants.IOT_ATTR_TYPE_COOLING_SETPOINT.value, thermostatSetPoint)
+            jsonPayload.put(SocketConstants.IOT_ATTR_TYPE_COOLING_SETPOINT.value, setPointToSend)
         }
 
         devicesSocketService.changeDeviceStatus(deviceAttributes, jsonPayload)
@@ -210,29 +219,53 @@ class ThermostatActivity : AppCompatActivity() {
 
     private fun handleTheLinePositionAndBackgourdColor() {
         rootLayout.setBackgroundResource(R.color.thermostatHoldingAtBack)
+        var tempDifference = 0
+        if(thermostatTemperature.isNotEmpty() && thermostatSetPoint.isNotEmpty()){
+            tempDifference=thermostatTemperature.toFloat().roundToInt() - thermostatSetPoint.toFloat().roundToInt()
+        }
+
         when(thermostatMode){
+
             SocketConstants.THERMOSTAT_MODE_OFF.value -> {
                 tvStatus.text = ""
             }
+
             SocketConstants.THERMOSTAT_MODE_HEAT.value -> {
                 when (thermostatStatus) {
                     SocketConstants.IOT_ATTR_VALUE_THERMO_STATUS_HEATING.value -> {
-                        tvStatus.text = getString(R.string.thermostatHeating)
-                        rootLayout.setBackgroundResource(R.color.thermostatHeatingToBack)
+                        if(tempDifference>1 || tempDifference<-1) {
+                            tvStatus.text = getString(R.string.thermostatHeating)
+                            rootLayout.setBackgroundResource(R.color.thermostatHeatingToBack)
+                        } else {
+                            tvStatus.text = getString(R.string.thermostatHolding)
+                        }
                     }
                     else -> {
-                        tvStatus.text = getString(R.string.thermostatHolding)
+                        if(tempDifference<1 && tempDifference>-1) {
+                            tvStatus.text = getString(R.string.thermostatHolding)
+                        } else {
+                            tvStatus.text = getString(R.string.thermostatSet)
+                        }
                     }
                 }
             }
+
             SocketConstants.THERMOSTAT_MODE_COOL.value -> {
                 when (thermostatStatus) {
                     SocketConstants.IOT_ATTR_VALUE_THERMO_STATUS_COOLING.value -> {
-                        tvStatus.text = getString(R.string.thermostatCooling)
-                        rootLayout.setBackgroundResource(R.color.thermostatCoolingToBack)
+                        if(tempDifference>1 || tempDifference<-1) {
+                            tvStatus.text = getString(R.string.thermostatCooling)
+                            rootLayout.setBackgroundResource(R.color.thermostatCoolingToBack)
+                        }  else {
+                            tvStatus.text = getString(R.string.thermostatHolding)
+                        }
                     }
                     else -> {
-                        tvStatus.text = getString(R.string.thermostatHolding)
+                        if(tempDifference<1 && tempDifference>-1) {
+                            tvStatus.text = getString(R.string.thermostatHolding)
+                        } else {
+                            tvStatus.text = getString(R.string.thermostatSet)
+                        }
                     }
                 }
             }
@@ -245,40 +278,58 @@ class ThermostatActivity : AppCompatActivity() {
             val statusItems = thermostatInfoData[0].deviceStatus
             val statusItemsSize: Int = statusItems.size
 
+            var targetMode = ""
+            var targetStatus = ""
+            var targetSetPoint = ""
+            var targetTemperature = ""
+
             for (i in 0 until statusItemsSize) {
                 if (statusItemsSize > 0) {
                     when(statusItems[i].attributeType) {
                         SocketConstants.IOT_ATTR_TYPE_THERMO_MODE.value -> {
                             Log.d("THERMO_UI_MODE",statusItems[i].toString())
-                            thermostatMode=statusItems[i].value
-                            changeModeButtonsState()
+                            targetMode = statusItems[i].value
                         }
                         SocketConstants.IOT_ATTR_TYPE_THERMO_OP_STATE_CHANGED.value -> {
                             Log.d("THERMOSTAT_CHANGE",statusItems[i].toString())
-                            thermostatStatus = statusItems[i].value
-                            changeModeButtonsState()
+                            targetStatus = statusItems[i].value
                         }
                         SocketConstants.IOT_ATTR_TYPE_THERMO_SETPOINT.value -> {
                             Log.d("THERMOSTAT_SETPOINT",statusItems[i].toString())
-                            thermostatSetPoint =  statusItems[i].value
-                            if(thermostatMode != SocketConstants.THERMOSTAT_MODE_OFF.value) {
-                                circulareSeekThermostat.primaryProgress = thermostatSetPoint.toFloat().roundToInt().toFloat()
-                                tvCurrentTemp.text = thermostatSetPoint.toFloat().roundToInt().toString()
-                            }
+                            targetSetPoint = statusItems[i].value
                         }
                         SocketConstants.IOT_ATTR_TYPE_TEMP.value -> {
                             Log.d("THERMOSTAT_TEMP",statusItems[i].toString())
-                            thermostatTemperature = statusItems[i].value
-                            if(thermostatMode == SocketConstants.THERMOSTAT_MODE_OFF.value) {
-                                circulareSeekThermostat.progress = thermostatTemperature.toFloat().roundToInt().toFloat()
-                                tvCurrentTemp.text = thermostatTemperature.toFloat().roundToInt().toString()
-                            } else {
-                                circulareSeekThermostat.secondaryProgress = thermostatTemperature.toFloat().roundToInt().toFloat()
-                            }
+                            targetTemperature = statusItems[i].value
                         }
                     }
                 }
             }
+
+            // Change Mode
+            thermostatMode=targetMode
+
+            // Change Status
+            thermostatStatus = targetStatus
+
+            // Change Setpoint
+            thermostatSetPoint = targetSetPoint
+            if(thermostatMode != SocketConstants.THERMOSTAT_MODE_OFF.value) {
+                circulareSeekThermostat.primaryProgress = thermostatSetPoint.toFloat().roundToInt().toFloat()
+                tvCurrentTemp.text = thermostatSetPoint.toFloat().roundToInt().toString()
+            }
+
+            // Change Temperature
+            thermostatTemperature = targetTemperature
+            if(thermostatMode == SocketConstants.THERMOSTAT_MODE_OFF.value) {
+                circulareSeekThermostat.progress = thermostatTemperature.toFloat().roundToInt().toFloat()
+                tvCurrentTemp.text = thermostatTemperature.toFloat().roundToInt().toString()
+            } else {
+                circulareSeekThermostat.secondaryProgress = thermostatTemperature.toFloat().roundToInt().toFloat()
+            }
+
+            // Handel any UI changes and backgrounds and buttons colors
+            changeModeButtonsState()
         }
     }
 
@@ -312,15 +363,18 @@ class ThermostatActivity : AppCompatActivity() {
                 val deviceStatusModel = deviceStatusChange as DeviceFromSocket
                 devicesSocketService.addOrUpdateDeviceInitialStatusItem(deviceStatusModel)
 
-                if(deviceStatusModel.deviceID == deviceId) {
-                    loadingWaitingForSocketResponse(false)
-                }
-
                 thermostatInfoData = devicesSocketService.siteDevicesData?.filter { p ->
                     p.device.function == SocketConstants.IOT_FUNCTION_THERMOSTAT.value
                 }
                 Log.d("THERMOSTAT_ACTIVITY", "RECEIVED_STATUS_CHANGE from socket = ${deviceStatusModel.toString()}" )
-                updateThermostatUI(thermostatInfoData)
+
+                if(!(deviceStatusModel.attributeType == SocketConstants.IOT_ATTR_TYPE_HEATING_SETPOINT.value
+                            || deviceStatusModel.attributeType == SocketConstants.IOT_ATTR_TYPE_COOLING_SETPOINT.value)) {
+                    updateThermostatUI(thermostatInfoData)
+                    if(deviceStatusModel.deviceID == deviceId) {
+                        loadingWaitingForSocketResponse(false)
+                    }
+                }
             }
         }
     }

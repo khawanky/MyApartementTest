@@ -15,6 +15,7 @@ class TvguideActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tvguide)
+
         // Action bar
         setSupportActionBar(backActionBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

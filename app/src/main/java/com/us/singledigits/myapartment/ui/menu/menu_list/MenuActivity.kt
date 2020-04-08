@@ -1,12 +1,12 @@
 package com.us.singledigits.myapartment.ui.menu.menu_list
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.us.singledigits.myapartment.R
+import com.us.singledigits.myapartment.commons.ui.BaseActivity
 import com.us.singledigits.myapartment.data.models.*
 import com.us.singledigits.myapartment.ui.menu.about.AboutActivity
 import com.us.singledigits.myapartment.ui.menu.help.HelpActivity
@@ -15,8 +15,7 @@ import com.us.singledigits.myapartment.ui.menu.myprofile.MyprofileActivity
 import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.toolbar_with_backarrow.*
 
-class MenuActivity : AppCompatActivity() {
-
+class MenuActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
@@ -28,35 +27,32 @@ class MenuActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         val myApartment = MyApartment()
         val myProfile = MyProfile()
+        loadSharedPreferenceData()
+
+        tvProfileName.text = residentModel?.residentAttributes?.firstName + " " + residentModel?.residentAttributes?.lastName
+        myProfile.firstName = residentModel?.residentAttributes?.firstName
+        myProfile.lastName = residentModel?.residentAttributes?.lastName
+        myProfile.email = residentModel?.residentAttributes?.emailAddress
+        myProfile.phoneNumber = residentModel?.residentAttributes?.phoneNumber
 
         val model: MenuViewModel = ViewModelProviders.of(this).get(MenuViewModel::class.java)
-        model.getResident()?.observe(this, Observer<Resident> {
-            tvProfileName.text = it.firstName + " " + it.lastName
-            myProfile.firstName = it.firstName
-            myProfile.lastName = it.lastName
-            myProfile.email = it.emailAddress
-            myProfile.phoneNumber = it.phoneNumber
-        })
-
-        model.getSite()?.observe(this, Observer<Site> {
+        model.getSite(token, residentModel)?.observe(this, Observer<SiteAttributes> {
             myApartment.siteName = it.name
             tvLocation.text = myApartment.siteName
 
             myApartment.fullSiteName = it.name
             myApartment.addressPart1 = it.address
-            myApartment.addressPart2 = it.city + ", " + it.state + " " + it.postalCode
-            myApartment.manager = it.propertyManagerName
-            myApartment.managerPhone = it.phoneNumber
-            myApartment.managerEmail = it.emailAddress
+            myApartment.addressPart2 = it.city + ", " + it.state + " " + it.country
+            myApartment.manager = it.propertyManager
+            myApartment.managerPhone = it.phone
+            myApartment.managerEmail = it.email
         })
 
-        model.getUnit()?.observe(this, Observer<DwellingUnitAttributes> {
+        model.getDwellingUnit(token, residentModel)?.observe(this, Observer<DwellingUnitAttributes> {
             myApartment.unitString = "Unit " + it.unitLabel
             tvUnit.text = myApartment.unitString + ","
-        })
 
-        model.getRoom()?.observe(this, Observer<DwellingUnitRoom> {
-            myApartment.roomString = "Room " + it.name
+            myApartment.roomString = "Room " + it.userGroupID
             tvRoom.text = myApartment.roomString
         })
 
