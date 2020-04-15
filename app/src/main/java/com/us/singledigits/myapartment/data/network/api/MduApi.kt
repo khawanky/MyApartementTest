@@ -1,7 +1,9 @@
 package com.us.singledigits.myapartment.data.network.api
 
 import com.us.singledigits.myapartment.commons.utils.StaticConstants
+import com.us.singledigits.myapartment.data.models.DeviceRequestBody
 import com.us.singledigits.myapartment.data.models.Login
+import com.us.singledigits.myapartment.data.models.NotificationAckRequestBody
 import com.us.singledigits.myapartment.data.network.responses.*
 import com.us.singledigits.myapartment.ui.login.data.model.LoggedInUser
 import okhttp3.OkHttpClient
@@ -12,7 +14,7 @@ import retrofit2.http.*
 
 interface MduApi {
     // Login
-    @POST("/mdu/authentication")
+    @POST("mdu/authentication")
     fun login(@Body userCredentials:Login) : Call<LoggedInUser>
 
     // Devices
@@ -22,9 +24,14 @@ interface MduApi {
     @GET
     fun getDwellingUnitDevices(@Header("x-bap-auth") token:String?, @Url url:String?) : Call<DwellingUnitDeviceResponse>
 
-    // TODO: To change it later
-    @POST("mdu/dwellingUnits/{id}")
-    fun addDevice(@Field("macAddress") macAddress: String, @Field("name") name:String ) : Call<DwellingUnitDeviceResponse>
+    @POST("mdu/residentDevices")
+    fun addDevice(@Header("x-bap-auth") token:String?, @Body requestBody:DeviceRequestBody) : Call<Void>
+
+    @PUT("mdu/residentDevices/{id}")
+    fun updateDevice(@Header("x-bap-auth") token:String?, @Path(value = "id") deviceId:Int?, @Body requestBody:DeviceRequestBody) : Call<Void>
+
+    @DELETE("mdu/residentDevices/{id}")
+    fun deleteDevice(@Header("x-bap-auth") token:String?, @Path(value = "id") deviceId:Int?) : Call<Void>
 
     // Units
     @GET
@@ -47,15 +54,14 @@ interface MduApi {
     fun getResidentNotificationsByUrl(@Header("x-bap-auth") token:String?, @Url url:String?) : Call<NotificationsResponse>
 
     @PATCH("mdu/notifications/{id}")
-    fun sendNotificationAcknowledgement(@Header("x-bap-auth") token:String?, @Path(value = "id") id:Int, @Body payload:String) : Call<Void>
-
+    fun sendNotificationAcknowledgement(@Header("x-bap-auth") token:String?, @Path(value = "id") id:Int, @Body payload: NotificationAckRequestBody?) : Call<Void>
 
     companion object {
         operator fun invoke(): MduApi {
             return Retrofit.Builder()
                 .baseUrl(StaticConstants.apiBaseUrl)
-                .client(OkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(OkHttpClient())
                 .build().create(MduApi::class.java)
         }
     }

@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/circles_top_background"
     tools:context=".ui.notifications.NotificationsActivity">
-
     <include
         android:id="@+id/include"
         layout="@layout/toolbar_with_backarrow"
@@ -15,14 +14,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ListView
-        android:id="@+id/listViewNotifications"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvNotifications"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="15dp"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="30dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

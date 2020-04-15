@@ -6,17 +6,13 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.us.singledigits.myapartment.R
-import kotlinx.android.synthetic.main.activity_lights.view.*
 
 class VerticalSlider : View {
     constructor(context: Context) : super(context)
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet) {
         val a = context.theme.obtainStyledAttributes(
-            attributeSet,
-            R.styleable.VerticalSlider,
-            0, 0
+            attributeSet, R.styleable.VerticalSlider, 0, 0
         )
-
         try {
             max = a.getInteger(R.styleable.VerticalSlider_vs_max, max)
             progress = a.getInteger(R.styleable.VerticalSlider_vs_progress, progress)
@@ -31,24 +27,23 @@ class VerticalSlider : View {
             field = value
             invalidate()
         }
+
     var max: Int = 10
     var progress: Int = 5
-        set(value) {
-            if (value > max) {
-                throw RuntimeException("progress must not be larger than max")
-            }
-            field = value
-            onProgressChangeListener?.onChanged(progress, max)
-            progressRect.set(
-                0f,
-                (1 - calculateProgress()) * measuredHeight,
-                measuredWidth.toFloat(),
-                measuredHeight.toFloat()
-            )
-            invalidate()
+    set(value) {
+        if (value > max) {
+            throw RuntimeException("progress must not be larger than max")
         }
-    var onProgressChangeListener: OnSliderProgressChangeListener? = null
+        field = value
+        onProgressChangeListener?.onChanged(progress, max)
+        progressRect.set(0f,(1 - calculateProgress()) * measuredHeight,
+            measuredWidth.toFloat(),
+            measuredHeight.toFloat()
+        )
+        invalidate()
+    }
 
+    var onProgressChangeListener: OnSliderProgressChangeListener? = null
     private val iconWidth = dpToPx(36)
     private val iconRect: RectF = RectF()
     private val layoutRect: RectF = RectF(0f, 0f, measuredWidth.toFloat(), measuredHeight.toFloat())
@@ -56,21 +51,18 @@ class VerticalSlider : View {
         color = Color.parseColor("#6643413A")
         isAntiAlias = true
     }
-    private val progressRect: RectF =
-        RectF(0f, 0f, measuredWidth.toFloat(), measuredHeight.toFloat())
+    private val progressRect: RectF = RectF(0f, 0f, measuredWidth.toFloat(), measuredHeight.toFloat())
     private val progressPaint = Paint().apply {
         color = Color.WHITE
         isAntiAlias = true
     }
-    private val path = Path()
 
+    private val path = Path()
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         if (measuredHeight > 0 && measuredWidth > 0) {
             layoutRect.set(0f, 0f, measuredWidth.toFloat(), measuredHeight.toFloat())
-            progressRect.set(
-                0f,
-                (1 - calculateProgress()) * measuredHeight,
+            progressRect.set(0f, (1 - calculateProgress()) * measuredHeight,
                 measuredWidth.toFloat(),
                 measuredHeight.toFloat()
             )

@@ -33,18 +33,22 @@ class HelpActivity : BaseActivity(), OnHelpItemClickListener {
         supportActionBar?.setDisplayShowCustomEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         toolbar_title.setText(R.string.helpTxt)
-        loadSharedPreferenceData()
 
         val model: HelpViewModel = ViewModelProviders.of(this).get(HelpViewModel::class.java)
+        loadSharedPreferenceData(model)
         model.getHelpTopicItems(token, residentModel)?.observe(this, Observer<List<HelpTopicListItem>> {
 
+            val icons = arrayOf(R.drawable.ic_add_guest, R.drawable.ic_help_wifi,R.drawable.ic_add_devices,
+                                R.drawable.ic_help_tv,R.drawable.ic_help_doors_locks)
+            val length = icons.size
+            var count=0
             for (item in it) {
-                when(item.helpTopicAttributes.title) {
-                    "Connection to  wifi" ->
+                // FIXME: the icon is static
                         helpItems.add(HelpInfo(item.helpTopicAttributes.title, item.helpTopicAttributes.content,
-                            item.helpTopicAttributes.commonIssues, R.drawable.ic_help_wifi))
-                    // TODO: Handle other help topics here
-                }
+                            item.helpTopicAttributes.commonIssues, icons[count]))
+                count++
+                if(count == length) count = 0
+
             }
             adapter = HelpAdapter(helpItems, this)
             lvListHelpItems.adapter = adapter
@@ -79,7 +83,7 @@ class HelpActivity : BaseActivity(), OnHelpItemClickListener {
                 val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
                 val myView = inflater.inflate(R.layout.help_item, null)
 
-                ViewHolder(helpItem, myView, myView.tvOwnerName, myView.ivhelpIconImage).also {
+                ViewHolder(helpItem, myView, myView.tvTitle, myView.ivhelpIconImage).also {
                     convertView?.tag = it
                 }
             } else {

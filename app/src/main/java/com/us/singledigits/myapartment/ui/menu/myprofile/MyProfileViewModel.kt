@@ -1,7 +1,7 @@
 package com.us.singledigits.myapartment.ui.menu.myprofile
 
-import androidx.lifecycle.ViewModel
+import com.us.singledigits.myapartment.commons.ui.BaseViewModel
 
-class MyProfileViewModel : ViewModel() {
+class MyProfileViewModel : BaseViewModel() {
 
 }

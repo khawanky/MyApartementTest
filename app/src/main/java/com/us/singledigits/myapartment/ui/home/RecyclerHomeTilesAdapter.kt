@@ -19,8 +19,12 @@ import com.us.singledigits.myapartment.ui.tvguide.TvguideActivity
 import kotlinx.android.synthetic.main.homepage_tile_item.view.*
 import java.util.*
 
-class RecyclerHomeTilesAdapter(private val tilesList: LinkedList<HomeTileItem>) :
+class RecyclerHomeTilesAdapter(private var tilesList: LinkedList<HomeTileItem>) :
     RecyclerView.Adapter<RecyclerHomeTilesAdapter.HomeTileViewHolder>() {
+
+    fun updateItems(newTilesList: LinkedList<HomeTileItem>) {
+        tilesList = newTilesList
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeTileViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(

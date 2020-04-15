@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.menu.help.NeedMoreHelp">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/transparentGrayBackground" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.15"
+        android:background="@color/white"
+        android:minHeight="125dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ivSMSContainer"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@drawable/circular_device_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ivChatContainer"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.35">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/circular_help_option_icon"
+                android:src="@drawable/ic_sms"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tvCall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/gibson_semi_bold"
+            android:text="@string/supportChat"
+            android:textColor="@color/black4"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/ivSMSContainer"
+            app:layout_constraintStart_toStartOf="@+id/ivSMSContainer"
+            app:layout_constraintTop_toBottomOf="@+id/ivSMSContainer" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ivChatContainer"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@drawable/circular_device_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/ivSMSContainer"
+            app:layout_constraintEnd_toStartOf="@+id/ivEmailContainer"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/ivSMSContainer"
+            app:layout_constraintTop_toTopOf="@+id/ivSMSContainer">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/circular_help_option_icon"
+                android:src="@drawable/ic_sms"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <TextView
+            android:id="@+id/tvChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/gibson_semi_bold"
+            android:text="@string/supportCall"
+            android:textColor="@color/black4"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/ivChatContainer"
+            app:layout_constraintStart_toStartOf="@+id/ivChatContainer"
+            app:layout_constraintTop_toBottomOf="@+id/ivChatContainer" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ivEmailContainer"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@drawable/circular_device_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/ivChatContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/ivChatContainer"
+            app:layout_constraintTop_toTopOf="@+id/ivChatContainer">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/circular_help_option_icon"
+                android:src="@drawable/ic_help_email"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/gibson_semi_bold"
+            android:text="@string/supportEmail"
+            android:textColor="@color/black4"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/ivEmailContainer"
+            app:layout_constraintStart_toStartOf="@+id/ivEmailContainer"
+            app:layout_constraintTop_toBottomOf="@+id/ivEmailContainer" />
+
+
+        <TextView
+            android:id="@+id/tvClose"
+            style="@style/questions_text"
+            android:layout_gravity="center"
+            android:fontFamily="@font/gibson_semi_bold"
+            android:text="@string/supportClose"
+            android:textSize="15sp"
+            app:layout_constraintVertical_bias="0.6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvChat" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

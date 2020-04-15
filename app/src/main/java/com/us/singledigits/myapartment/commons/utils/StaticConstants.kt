@@ -5,7 +5,8 @@ import android.content.Context
 object StaticConstants {
     private var sharedPreferencePreferences: SharedPreferencesConfig? = null
 //    val apiBaseUrl = "https://virtserver.swaggerhub.com/Single-Digits/MDU/1.0/"
-    val apiBaseUrl = "http://mdu-api.qa.mdu-apps.aws.opennetworkexchange.net/"
+//    val apiBaseUrl = "http://mdu-api.qa.mdu-apps.aws.opennetworkexchange.net/"
+    val apiBaseUrl = "http://mdu-api.prod.mdu-apps.aws.opennetworkexchange.net/"
 
     fun getSharedPreferencesConfig(context: Context?): SharedPreferencesConfig? {
         if (sharedPreferencePreferences == null) {

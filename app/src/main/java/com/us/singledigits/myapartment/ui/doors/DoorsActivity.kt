@@ -63,14 +63,14 @@ class DoorsActivity : AppCompatActivity() {
             val statusItemsSize: Int = statusItems.size
             for (i in 0 until statusItemsSize) {
                 if (statusItems[i].attributeType == SocketConstants.IOT_ATTR_TYPE_LOCK.value) {
-                    if (statusItems[i].value.startsWith(SocketConstants.IOT_ATTR_VALUE_LOCK_LOCKED.value)) {
-                        doorView.tvItemStatus.setText(R.string.locked)
-                        doorView.ivItemStatusImage.setImageResource(R.drawable.door_locked)
-                        doorView.circularButtonContainer.setBackgroundResource(R.drawable.circular_closed_doors)
-                    } else {
+                    if (statusItems[i].value.contains(SocketConstants.IOT_ATTR_VALUE_LOCK_UNLOCKED.value)) {
                         doorView.tvItemStatus.setText(R.string.unlocked)
                         doorView.ivItemStatusImage.setImageResource(R.drawable.door_unlocked)
-                        doorView.circularButtonContainer.setBackgroundResource(R.drawable.circular_opened_doors_lights)
+                        doorView.circularButtonContainer.setBackgroundResource(R.drawable.circular_unlocked_doors)
+                    } else {
+                        doorView.tvItemStatus.setText(R.string.locked)
+                        doorView.ivItemStatusImage.setImageResource(R.drawable.door_locked)
+                        doorView.circularButtonContainer.setBackgroundResource(R.drawable.circular_locked_doors_or_openned_lights)
                     }
                 }
             }
@@ -142,14 +142,14 @@ class DoorsActivity : AppCompatActivity() {
             val statusItemsSize: Int = statusItems.size
             for (i in 0 until statusItemsSize) {
                 if (statusItems[i].attributeType == SocketConstants.IOT_ATTR_TYPE_LOCK.value) {
-                    if (statusItems[i].value.startsWith(SocketConstants.IOT_ATTR_VALUE_LOCK_LOCKED.value)) {
-                        doorView.tvItemStatus.setText(R.string.locked)
-                        doorView.ivItemStatusImage.setImageResource(R.drawable.door_locked)
-                        doorView.circularButtonContainer.setBackgroundResource(R.drawable.circular_closed_doors)
-                    } else {
+                    if (statusItems[i].value.contains(SocketConstants.IOT_ATTR_VALUE_LOCK_UNLOCKED.value)) {
                         doorView.tvItemStatus.setText(R.string.unlocked)
                         doorView.ivItemStatusImage.setImageResource(R.drawable.door_unlocked)
-                        doorView.circularButtonContainer.setBackgroundResource(R.drawable.circular_opened_doors_lights)
+                        doorView.circularButtonContainer.setBackgroundResource(R.drawable.circular_unlocked_doors)
+                    } else {
+                        doorView.tvItemStatus.setText(R.string.locked)
+                        doorView.ivItemStatusImage.setImageResource(R.drawable.door_locked)
+                        doorView.circularButtonContainer.setBackgroundResource(R.drawable.circular_locked_doors_or_openned_lights)
                     }
                 }
             }

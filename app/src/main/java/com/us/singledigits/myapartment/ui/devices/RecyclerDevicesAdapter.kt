@@ -8,11 +8,24 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.us.singledigits.myapartment.R
-import kotlinx.android.synthetic.main.list_item_people.view.*
+import kotlinx.android.synthetic.main.devices_list_item.view.*
 import java.util.*
 
-class RecyclerDevicesAdapter(private val devicesList: ArrayList<DeviceInfo>) :
+class RecyclerDevicesAdapter(private var devicesList: ArrayList<DeviceInfo>) :
     RecyclerView.Adapter<RecyclerDevicesAdapter.DevicesViewHolder>() {
+
+    private var accountId:String?=null
+    private var userGroupId:String?=null
+
+    fun updateItems(newDevicesList: ArrayList<DeviceInfo>) {
+        devicesList = newDevicesList
+    }
+    fun setAccountId(accountId: String) {
+        this.accountId = accountId
+    }
+    fun setUserGroupId(userGroupId: String) {
+        this.userGroupId = userGroupId
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DevicesViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
@@ -22,24 +35,30 @@ class RecyclerDevicesAdapter(private val devicesList: ArrayList<DeviceInfo>) :
             val context = itemView.context
             if(item.isPersonal){
                 val intent = Intent(context.applicationContext, AddDeviceActivity::class.java)
-                intent.putExtra("name", item.name)
+                intent.putExtra("deviceId", item.deviceId)
+                intent.putExtra("accountId", accountId)
                 intent.putExtra("macAddress", item.macAddress)
-                context.startActivity(intent)
+                intent.putExtra("userGroupId", userGroupId)
+                intent.putExtra("description", item.name)
+
+                if(!accountId.isNullOrEmpty() && !userGroupId.isNullOrEmpty()) {
+                    context.startActivity(intent)
+                }
             }
         }
     }
 
     override fun onBindViewHolder(holder: DevicesViewHolder, position: Int) {
         val currentItem = devicesList[position]
-        holder.tvName.text = currentItem.name
-        holder.ivDeviceIcon.setImageResource(currentItem.deviceIcon!!)
+        holder.deviceName.text = currentItem.name
+        holder.deviceIcon.setImageResource(currentItem.deviceIcon)
     }
 
     override fun getItemCount() = devicesList.size
 
     class DevicesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvName: TextView = itemView.tvOwnerName
-        val ivDeviceIcon: ImageView = itemView.ivDeviceIcon
+        val deviceName: TextView = itemView.tvTitle
+        val deviceIcon: ImageView = itemView.ivNotIconContainer
     }
 
     private fun <T : RecyclerView.ViewHolder> T.listen(event: (position: Int, type: Int) -> Unit): T {

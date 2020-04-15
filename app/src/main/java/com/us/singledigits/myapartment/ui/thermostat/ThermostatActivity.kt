@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.us.singledigits.myapartment.R
@@ -18,7 +17,6 @@ import com.us.singledigits.myapartment.data.models.DwellingUnitDeviceAttributes
 import com.us.singledigits.myapartment.data.services.DevicesSocketService
 import com.us.singledigits.myapartment.ui.menu.help.HelpActivity
 import kotlinx.android.synthetic.main.activity_thermostat.*
-import kotlinx.android.synthetic.main.toolbar_with_backarrow.*
 import kotlinx.android.synthetic.main.toolbar_with_backarrow.backActionBar
 import kotlinx.android.synthetic.main.toolbar_with_backarrow.toolbar_title
 import kotlinx.android.synthetic.main.toolbar_with_white_backarrow.*
@@ -274,7 +272,7 @@ class ThermostatActivity : AppCompatActivity() {
 
     private fun updateThermostatUI(thermostatInfoData: List<DwellingUnitDevice>?) {
         if(thermostatInfoData?.size == 1) {
-            tvDeviceName.text = thermostatInfoData[0].device.name
+            tvTitle.text = thermostatInfoData[0].device.name
             val statusItems = thermostatInfoData[0].deviceStatus
             val statusItemsSize: Int = statusItems.size
 

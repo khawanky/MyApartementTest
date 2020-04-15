@@ -3,9 +3,9 @@ package com.us.singledigits.myapartment.ui.login.ui.login
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import android.util.Patterns
 import com.us.singledigits.myapartment.R
+import com.us.singledigits.myapartment.commons.ui.BaseViewModel
 import com.us.singledigits.myapartment.data.models.Login
 import com.us.singledigits.myapartment.data.network.api.MduApi
 import com.us.singledigits.myapartment.ui.login.data.model.LoggedInUser
@@ -13,7 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel : BaseViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm

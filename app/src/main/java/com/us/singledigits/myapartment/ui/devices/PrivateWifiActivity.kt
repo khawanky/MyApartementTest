@@ -22,13 +22,13 @@ class PrivateWifiActivity : BaseActivity() {
         ivClose.setOnClickListener {
             this.finish()
         }
-        loadSharedPreferenceData()
 
         var networkName = ""
         var networkPassword = ""
         var unitLabel = ""
 
         val model: MenuViewModel = ViewModelProviders.of(this).get(MenuViewModel::class.java)
+        loadSharedPreferenceData(model)
         model.getDwellingUnit(token, residentModel)?.observe(this, Observer<DwellingUnitAttributes> {
             networkName =it.privateSsid
             networkPassword = it.privateSsidPassword

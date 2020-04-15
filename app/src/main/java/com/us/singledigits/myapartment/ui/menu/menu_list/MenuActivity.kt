@@ -27,15 +27,16 @@ class MenuActivity : BaseActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         val myApartment = MyApartment()
         val myProfile = MyProfile()
-        loadSharedPreferenceData()
 
+        val model: MenuViewModel = ViewModelProviders.of(this).get(MenuViewModel::class.java)
+        loadSharedPreferenceData(model)
         tvProfileName.text = residentModel?.residentAttributes?.firstName + " " + residentModel?.residentAttributes?.lastName
         myProfile.firstName = residentModel?.residentAttributes?.firstName
         myProfile.lastName = residentModel?.residentAttributes?.lastName
         myProfile.email = residentModel?.residentAttributes?.emailAddress
         myProfile.phoneNumber = residentModel?.residentAttributes?.phoneNumber
 
-        val model: MenuViewModel = ViewModelProviders.of(this).get(MenuViewModel::class.java)
+
         model.getSite(token, residentModel)?.observe(this, Observer<SiteAttributes> {
             myApartment.siteName = it.name
             tvLocation.text = myApartment.siteName

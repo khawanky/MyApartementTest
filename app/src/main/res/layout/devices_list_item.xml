@@ -9,7 +9,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@drawable/rect_help_item_list">
+        android:background="@drawable/rect_help_item_list"
+        android:layout_marginTop="@dimen/dp_2"
+        android:layout_marginBottom="@dimen/dp_2">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ivProfileImageBack"
@@ -22,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/ivDeviceIcon"
+                android:id="@+id/ivNotIconContainer"
                 android:layout_width="23dp"
                 android:layout_height="23dp"
                 android:src="@drawable/computer"
@@ -33,7 +35,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/tvOwnerName"
+            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

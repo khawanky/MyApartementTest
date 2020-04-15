@@ -24,7 +24,6 @@
     </style>
 
     <style name="textFields">
-        <item name="android:cursorVisible">false</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:fontFamily">@font/gibson_regular</item>

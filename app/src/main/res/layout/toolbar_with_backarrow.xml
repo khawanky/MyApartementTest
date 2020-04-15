@@ -7,8 +7,9 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/backActionBar"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="0dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:elevation="4dp"
         android:homeAsUpIndicator="@drawable/back_arrow"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
@@ -19,7 +20,6 @@
 
         <TextView
             android:id="@+id/toolbar_title"
-            style="@style/screen_title"
-            android:text="" />
+            style="@style/screen_title" />
     </androidx.appcompat.widget.Toolbar>
 </androidx.constraintlayout.widget.ConstraintLayout>

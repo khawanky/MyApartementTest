@@ -29,12 +29,12 @@ import retrofit2.Response
 import java.util.*
 import kotlin.math.roundToInt
 
-
 class HomePageActivity : BaseActivity() {
     private val deviceStatusReceiver = DevicesSocketServiceReceiver()
     private lateinit var devicesSocketService: DevicesSocketService
     private var devicesSocketBound = false
     private var notificationsViewModel: NotificationsViewModel? = null
+    private var devicesViewModel: DevicesViewModel? = null
 
     private var iotDevicesInfoData: List<DwellingUnitDevice>? = null
     private var doorsInfoData: List<DwellingUnitDevice>? = null
@@ -44,7 +44,9 @@ class HomePageActivity : BaseActivity() {
     private var outletsInfoData: List<DwellingUnitDevice>? = null
 
     private var homePageTilesInformation: SparseArray<HomeTileItem> = SparseArray(15)
-    private var recyclerViewManager: GridLayoutManager? = null
+    private var tilesAdapter: RecyclerHomeTilesAdapter? = null
+
+    private lateinit var devicesTileInfo:HomeTileItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +54,6 @@ class HomePageActivity : BaseActivity() {
 
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        loadSharedPreferenceData()
 
         // Hamburger menu
         ivHamburger.setOnClickListener {
@@ -61,6 +62,7 @@ class HomePageActivity : BaseActivity() {
 
         // Notifications
         notificationsViewModel = ViewModelProviders.of(this).get(NotificationsViewModel::class.java)
+        loadSharedPreferenceData(notificationsViewModel)
         notificationsViewModel?.hasUnreadNotifications(token, residentModel)
             ?.observe(this, Observer<Boolean> {
                 if (it != null && it == true) {
@@ -73,8 +75,7 @@ class HomePageActivity : BaseActivity() {
         }
 
         // Tiles
-        recyclerViewManager = GridLayoutManager(this, 2)
-        rvHomePageTiles.layoutManager = recyclerViewManager
+        rvHomePageTiles.layoutManager = GridLayoutManager(this, 2)
         rvHomePageTiles.setHasFixedSize(true)
 
         var tvGuideTileInfo = HomeTileItem(
@@ -83,7 +84,7 @@ class HomePageActivity : BaseActivity() {
             true, null
         )
 
-        var devicesTileInfo = HomeTileItem(
+        devicesTileInfo = HomeTileItem(
             getString(R.string.devices),
             "0 " + getString(R.string.devicesTotal),R.color.black5,
             "", R.drawable.devices, getString(R.string.devicesTileName),
@@ -94,8 +95,8 @@ class HomePageActivity : BaseActivity() {
         addOrUpdateTile(devicesTileInfo)
 
         // Change total number of devices tile
-        val devicesViewModel: DevicesViewModel = ViewModelProviders.of(this).get(DevicesViewModel::class.java)
-        devicesViewModel.getMyDevicesItemsCount(token, residentModel)?.observe(this, Observer<Int> {
+        devicesViewModel = ViewModelProviders.of(this).get(DevicesViewModel::class.java)
+        devicesViewModel?.getMyDevicesItemsCount(token, residentModel)?.observe(this, Observer<Int> {
             if (it != null) {
                 devicesTileInfo.status = "$it " + getString(R.string.devicesTotal)
                 addOrUpdateTile(devicesTileInfo)
@@ -104,8 +105,7 @@ class HomePageActivity : BaseActivity() {
 
         MduApi().getDwellingUnitDevices(token, residentModel?.links?.dwellingUnitDevices).enqueue(object :
             Callback<DwellingUnitDeviceResponse> {
-            override fun onResponse(call: Call<DwellingUnitDeviceResponse>,
-                                    response: Response<DwellingUnitDeviceResponse>) {
+            override fun onResponse(call: Call<DwellingUnitDeviceResponse>, response: Response<DwellingUnitDeviceResponse>) {
                 if (response.isSuccessful) {
                     Log.d("SUCCESS_API", "Called getDwellingUnitDevices API successfully")
                     var siteDevices: List<DwellingUnitDevice>? = response.body()?.data
@@ -120,18 +120,17 @@ class HomePageActivity : BaseActivity() {
                         if(fansTileInfo != null) addOrUpdateTile(fansTileInfo!!)
                         if(outletsTileInfo != null) addOrUpdateTile(outletsTileInfo!!)
                     }
+                } else {
+                    Log.d("NOT_SUCCESS_API", "Call getDwellingUnitDevices API, return with code= " + response.code())
                 }
             }
             override fun onFailure(call: Call<DwellingUnitDeviceResponse>, t: Throwable) {
-                Log.d(
-                    "FAILED_API", "Failed to call getDevices API, can't subscribe to devices, Error: " + t.message
-                )
+                Log.d("FAILED_API", "Failed to call getDevices API, can't subscribe to devices, Error: " + t.message)
             }
         })
 
         // to receive messages from the socket connection (device updates)
-        LocalBroadcastManager.getInstance(this)
-            .registerReceiver(deviceStatusReceiver, IntentFilter("listenToDevicesStatus"))
+        LocalBroadcastManager.getInstance(this).registerReceiver(deviceStatusReceiver, IntentFilter("listenToDevicesStatus"))
     }
 
 
@@ -196,7 +195,7 @@ class HomePageActivity : BaseActivity() {
         doorsInfoData?.forEach {
             totalUnlockedDoors += it.deviceStatus.filter { p ->
                 p.attributeType == SocketConstants.IOT_ATTR_TYPE_LOCK.value &&
-                        p.value.startsWith(SocketConstants.IOT_ATTR_VALUE_LOCK_UNLOCKED.value)
+                        p.value.contains(SocketConstants.IOT_ATTR_VALUE_LOCK_UNLOCKED.value)
             }.count()
         }
 
@@ -355,7 +354,14 @@ class HomePageActivity : BaseActivity() {
 
     private fun addOrUpdateTile(tile: HomeTileItem) {
         homePageTilesInformation.put(getTileKey(tile.tileName), tile)
-        rvHomePageTiles.adapter = RecyclerHomeTilesAdapter(asList(homePageTilesInformation))
+
+        if(tilesAdapter == null ) {
+            tilesAdapter = RecyclerHomeTilesAdapter(asList(homePageTilesInformation))
+        } else {
+            tilesAdapter?.updateItems(asList(homePageTilesInformation))
+        }
+
+        rvHomePageTiles.adapter = tilesAdapter
         rvHomePageTiles.adapter?.notifyDataSetChanged()
     }
 
@@ -382,6 +388,16 @@ class HomePageActivity : BaseActivity() {
             getString(R.string.outletsTileName) -> 7
             else -> 0
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        devicesViewModel?.getMyDevicesItemsCount(token, residentModel)?.observe(this, Observer<Int> {
+            if (it != null) {
+                devicesTileInfo.status = "$it " + getString(R.string.devicesTotal)
+                addOrUpdateTile(devicesTileInfo)
+            }
+        })
     }
 
     override fun onStart() {

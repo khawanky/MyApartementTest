@@ -151,7 +151,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/tvSendSMS"
+            android:id="@+id/tvCall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sendSMS"

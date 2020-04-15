@@ -1,7 +1,6 @@
 package com.us.singledigits.myapartment.ui.menu.myapartment
 
-import androidx.lifecycle.ViewModel
+import com.us.singledigits.myapartment.commons.ui.BaseViewModel
 
-class MyApartmentViewModel : ViewModel() {
-
+class MyApartmentViewModel : BaseViewModel() {
 }

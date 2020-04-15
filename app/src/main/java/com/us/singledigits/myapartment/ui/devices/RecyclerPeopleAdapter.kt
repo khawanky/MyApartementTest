@@ -27,7 +27,7 @@ class RecyclerPeopleAdapter(private val peopleList: ArrayList<ProfileInfo>) :
     override fun getItemCount() = peopleList.size
 
     class PeopleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title: TextView = itemView.tvOwnerName
-        val owner: TextView = itemView.tvOwner
+        val title: TextView = itemView.tvTitle
+        val owner: TextView = itemView.tvTime
     }
 }

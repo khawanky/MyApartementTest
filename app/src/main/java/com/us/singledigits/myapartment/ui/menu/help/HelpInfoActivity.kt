@@ -1,5 +1,6 @@
 package com.us.singledigits.myapartment.ui.menu.help
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -53,6 +54,12 @@ class HelpInfoActivity : AppCompatActivity() {
             params.setMargins(0,0,0,12)
             rowTextView.layoutParams = params
             linLayCommonIssues.addView(rowTextView)
+        }
+
+        stillHaveTroubleTitle.setOnClickListener {
+            val intent = Intent(this, NeedMoreHelp::class.java)
+//            intent.putExtra("privateWifiNetwork", privateWifiNetwork)
+            startActivity(intent)
         }
     }
 

@@ -30,6 +30,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ivClose" />
 
+    <ImageView
+        android:id="@+id/ivDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:src="@drawable/delete_device"
+        app:layout_constraintBottom_toBottomOf="@+id/addDeviceTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/addDeviceTitle" />
+
     <TextView
         android:id="@+id/tvMacAddress"
         style="@style/labels"
@@ -63,7 +73,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvMacAddress" />
 
     <TextView
-        android:id="@+id/tvDeviceName"
+        android:id="@+id/tvTitle"
         style="@style/labels"
         android:layout_marginTop="36dp"
         android:text="@string/deviceNameLabel"
@@ -80,7 +90,7 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDeviceName" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
     <Button
         android:id="@+id/buSave"

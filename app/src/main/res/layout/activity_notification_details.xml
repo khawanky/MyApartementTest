@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ivDeviceIcon"
+        android:id="@+id/ivNotIconContainer"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginStart="25dp"
@@ -38,7 +38,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/tvOwnerName"
+        android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="21dp"
@@ -49,11 +49,11 @@
         android:textColor="@color/black4"
         android:textSize="@dimen/sp_20"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivDeviceIcon"
-        app:layout_constraintTop_toTopOf="@+id/ivDeviceIcon" />
+        app:layout_constraintStart_toEndOf="@+id/ivNotIconContainer"
+        app:layout_constraintTop_toTopOf="@+id/ivNotIconContainer" />
 
     <TextView
-        android:id="@+id/tvOwner"
+        android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gibson_regular"
@@ -61,8 +61,8 @@
         android:layout_marginTop="4dp"
         android:textColor="@color/black5"
         android:textSize="@dimen/sp_14"
-        app:layout_constraintStart_toStartOf="@+id/tvOwnerName"
-        app:layout_constraintTop_toBottomOf="@+id/tvOwnerName" />
+        app:layout_constraintStart_toStartOf="@+id/tvTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
     <ImageView
         android:id="@+id/ivLine"
@@ -74,7 +74,7 @@
         android:background="@color/gray2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvOwner" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTime" />
 
     <ScrollView
         android:layout_width="0dp"

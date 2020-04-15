@@ -116,10 +116,7 @@ class DevicesSocketService : Service() {
                 }
 
                 override fun onFailure(call: Call<DwellingUnitDeviceResponse>, t: Throwable) {
-                    Log.d(
-                        "FAILED_API",
-                        "Failed to call getDwellingUnitDevices API, can't subscribe to devices, Error: " + t.message
-                    )
+                    Log.d("FAILED_API","Failed to call getDwellingUnitDevices API, can't subscribe to devices, Error: " + t.message)
                 }
             })
         }
@@ -195,12 +192,8 @@ class DevicesSocketService : Service() {
                     }
                 }
             }
-
             override fun onFailure(call: Call<SiteServicesResponse>, t: Throwable) {
-                Log.d(
-                    "FAILED_API",
-                    "Failed to call getSiteServices API, can't connect to socket, Error: " + t.message
-                )
+                Log.d("FAILED_API","Failed to call getSiteServices API, can't connect to socket, Error: " + t.message)
             }
         })
     }

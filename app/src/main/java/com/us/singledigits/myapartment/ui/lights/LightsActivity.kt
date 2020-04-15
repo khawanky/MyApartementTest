@@ -72,17 +72,17 @@ class LightsActivity : AppCompatActivity() {
 
             var isLightOn=false
             for (i in 0 until statusItemsSize) {
+                lightView.ivSettingsIcon.visibility = View.INVISIBLE
                 if (statusItems[i].attributeType == SocketConstants.IOT_ATTR_TYPE_SWITCH.value) {
                     if (statusItems[i].value.startsWith(SocketConstants.IOT_ATTR_VALUE_SWITCH_ON.value)) {
                         lightView.tvItemStatus.setText(R.string.on)
                         lightView.ivItemStatusImage.setImageResource(R.drawable.lamp_on)
-                        lightView.circularButtonContainer.setBackgroundResource(R.drawable.circular_opened_doors_lights)
+                        lightView.circularButtonContainer.setBackgroundResource(R.drawable.circular_locked_doors_or_openned_lights)
                         isLightOn=true
                         hasLightOn=true
                     } else {
                         lightView.tvItemStatus.setText(R.string.off)
                         lightView.ivItemStatusImage.setImageResource(R.drawable.lamp_off)
-                        lightView.ivSettingsIcon.visibility = View.INVISIBLE
                         lightView.circularButtonContainer.setBackgroundResource(R.drawable.circular_closed_lights)
                     }
                 }
@@ -169,10 +169,7 @@ class LightsActivity : AppCompatActivity() {
         }
     }
 
-    private fun lightClickListener(
-        deviceAttributes: DwellingUnitDeviceAttributes,
-        lightSwitchContainer: View
-    ) {
+    private fun lightClickListener(deviceAttributes: DwellingUnitDeviceAttributes, lightSwitchContainer: View) {
         resetTheSliderSettingsView()
         val jsonPayload = JSONObject()
         jsonPayload.put(SocketConstants.KEY_COMMAND.value, SocketConstants.SWITCHES_COMMAND.value)
@@ -218,7 +215,7 @@ class LightsActivity : AppCompatActivity() {
                 changeThePercentageTextValueAndPosition(lightLevel)
             } else { // settings is active (have the white background)
                 lightPercentageVerticalSlider.visibility = View.GONE
-                percentageText.visibility = View.GONE
+                percentageText.visibility = View.INVISIBLE
                 ivSettingsIcon.setBackgroundResource(0)
             }
             setVerticalSliderListener(false)
@@ -227,6 +224,7 @@ class LightsActivity : AppCompatActivity() {
 
     private fun resetTheSliderSettingsView() {
         lightPercentageVerticalSlider.visibility = View.GONE
+        percentageText.visibility = View.INVISIBLE
         for (i in 0 until lightsStatusContainer.children.count()) {
             val lightView: View = lightsStatusContainer.getChildAt(i)
             lightView.ivSettingsIcon.setBackgroundResource(0)
@@ -259,8 +257,8 @@ class LightsActivity : AppCompatActivity() {
     }
 
     private fun changeThePercentageTextValueAndPosition(progress: Int) {
-        var sliderHeight = lightPercentageVerticalSlider.height
-        var upperY = lightPercentageVerticalSlider.y
+        var sliderHeight = percentageTextContainer.height
+        var upperY = percentageTextContainer.y
         var bottomY = upperY + sliderHeight
         if (sliderHeight == 0) { // Not drawn yet TODO: Fix the initial status percentage doesn't appear issue
             sliderHeight = 1800
@@ -315,7 +313,7 @@ class LightsActivity : AppCompatActivity() {
                     if (statusItems[i].value.startsWith(SocketConstants.IOT_ATTR_VALUE_SWITCH_ON.value)) {
                         lightView.tvItemStatus.setText(R.string.on)
                         lightView.ivItemStatusImage.setImageResource(R.drawable.lamp_on)
-                        lightView.circularButtonContainer.setBackgroundResource(R.drawable.circular_opened_doors_lights)
+                        lightView.circularButtonContainer.setBackgroundResource(R.drawable.circular_locked_doors_or_openned_lights)
 
                         var haveSettingsIcon = false
                         for (j in 0 until statusItemsSize) {
@@ -387,10 +385,7 @@ class LightsActivity : AppCompatActivity() {
                     p.device.function == SocketConstants.IOT_FUNCTION_LIGHT_TOGGLE.value
                             || p.device.function == SocketConstants.IOT_FUNCTION_LIGHT_DIMMER.value
                 }
-                Log.d(
-                    "LIGHTS_ACTIVITY",
-                    "RECEIVED_STATUS_CHANGE from socket = ${deviceStatusModel.toString()}"
-                )
+                Log.d("LIGHTS_ACTIVITY","RECEIVED_STATUS_CHANGE from socket = ${deviceStatusModel.toString()}")
 
                 var responseReceived = false
                 lightsStatusContainer.children.forEach {
